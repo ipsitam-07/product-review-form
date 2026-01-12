@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
+<div class="layout">
+    <div class="form-container">
 <div class="container">
     <!-- Header -->
     <header class="header">
@@ -190,8 +191,38 @@
             <button type="submit" class="submit-btn">Submit Review</button>
         </div>
     </form>
-</div>
+    </div>
+    </div>
 
+    <!-- Table Container-->
+    <div class="table-layout">
+        <div class="table-container">
+            <div class="table-header">
+                <h1>Submitted Reviews</h1>
+                <small>Live data</small>
+            </div>
+
+            <div class="table-main-content">
+                <table id="reviewsTable">
+                    <thead>
+                        <tr>
+                            <th>Purchase Date</th>
+                            <th>Rating</th>
+                            <th>Review Title</th>
+                            <th>Review Description</th>
+                            <th>Recommend</th>
+                            <th>Addtional Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <p id="initialSubmission">No reviews submitted yet.</p>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="js/script.js"></script>
 </body>
 </html>
