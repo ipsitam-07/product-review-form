@@ -75,6 +75,102 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    //Form Validation with window alert
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let isValid = true;
 
+        document.querySelectorAll('.error-msg').forEach(ele => ele.innerText = '');
+        document.querySelectorAll('.form-group, .rating-group, .checkbox-group').forEach(ele => ele.classList.remove('error'));
+        //Review details and purchase date validation
+        const title = document.getElementById('reviewTitle');
+        if(title.value.length < 10 || title.value.length > 100){
+            showError('reviewTitle', 'Review title is required and must between 10-100 characters.');
+            isValid = false;
+        }
+
+        const details = document.getElementById('reviewDetails');
+        if(details.value.length < 30 || details.value.length > 1000){
+            showError('reviewDetails', 'Review Description is required and must be between 30-1000 characters.');
+            isValid = false;
+        }
+
+        const purchaseDate = document.getElementById('purchaseDate');
+        if(!purchaseDate.value){
+            showError('purchaseDate', 'Please select a purchase date.');
+            isValid = false;
+        }
+
+        //Rating validation
+        const requiredRatings = ['overallRating', 'qualityRating', 'valueRating'];
+        requiredRatings.forEach(name => {
+            const input = document.getElementById(name);
+            if(!input.value){
+                showError(name, 'Please enter a rating.');
+                isValid = false;
+            }
+        });
+
+        //Additional checkboxes validation
+        const recommend = document.querySelector('input[name="recommend"]:checked');
+        if(!recommend){
+            showError('recommend', 'Please select an option');
+            isValid = false;
+        }
+
+        const makePublic = document.querySelector('input[name="makePublic"]');
+        if(!makePublic.checked){
+            showError('makePublic', 'Required');
+            isValid = false;
+        }
+
+        const termsCondtions = document.querySelector('input[name="agreeTerms"]');
+        if(!termsCondtions.checked){
+            showError('agreeTerms', 'Required');
+            isValid = false;
+        }
+
+        if(isValid){
+            alert("Thank You! Your review has been submitted successfully.");
+        } else {
+            const firstError = document.querySelector('.error');
+            if (firstError){
+                firstError.scrollIntoView();
+            }
+        }
+
+    });
+    
+    const textInputs = ['reviewTitle', 'reviewDetails'];
+    textInputs.forEach(id => {
+    const input = document.getElementById(id);
+    input.addEventListener('input', () => {
+        clearError(input.parentElement);
+    });
+    });
+
+    const dateInput = document.getElementById('purchaseDate');
+    dateInput.addEventListener('change', () => {
+    if(dateInput.value) clearError(dateInput.parentElement);
+    });
+
+    const checkboxes = ['makePublic', 'agreeTerms'];
+    checkboxes.forEach(name => {
+    const input = document.querySelector(`input[name="${name}"]`);
+    input.addEventListener('change', () => {
+        if(input.checked) clearError(input.closest('.checkbox-group'));
+    });
+    });
+
+    const radioNames = ['recommend']; 
+    radioNames.forEach(name => {
+    const radios = document.querySelectorAll(`input[name="${name}"]`);
+    radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            const container = radio.closest('.form-group');
+            clearError(container);
+        });
+    });
+    });
 
 });
