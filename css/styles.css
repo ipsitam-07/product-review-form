@@ -1,0 +1,218 @@
+:root {
+    --primary: #4f46e5;      
+    --primary-hover: #4338ca;
+    --bg-color: #adc5f4;      
+    --card-bg: #ffffff;
+    --text-main: #1f2937;
+    --text-heading: #140bbb;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --error: #ef4444;
+    --star-gold: #fbbf24;
+    --star-grey: #d1d5db;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 1rem;
+}
+small{
+    font-weight: normal;
+    color: var(--text-muted);
+}
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+.header h1 {
+    margin: 0; 
+    font-size: 1.5rem; 
+    font-weight: 600; 
+    color: var(--text-heading); 
+}
+.header p { 
+    margin: 5px 0 0; 
+    color: var(--text-muted); 
+    font-size: 0.9rem; 
+}
+
+/* Section */
+.form-section { margin-bottom: 2rem; }
+.form-section h3 { 
+    font-size: 1.3rem; 
+    margin-bottom: 1.1rem; 
+    font-weight: bold; 
+    color: var(--text-heading); 
+}
+
+.row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.row .form-group { flex: 1; }
+
+/* Form Control*/
+.form-group { margin-bottom: 1.25rem; }
+.form-group label {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.form-section .required-star { color: var(--error); }
+
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    box-sizing: border-box; 
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.readonly-input { 
+    background-color: #f9fafb; 
+    color: var(--text-muted); 
+    cursor: default; 
+}
+.helper-text { 
+    font-size: 0.75rem; 
+    color: var(--text-muted); 
+    margin-top: 4px; 
+}
+
+/* Error Styling */
+.error-msg {
+    display: none; 
+    color: var(--error);
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+.form-group.error input, .form-group.error textarea { 
+    border-color: var(--error); 
+}
+.form-group.error .error-msg { 
+    display: block; 
+}
+
+/* Star Rating */
+.rating-group { 
+    margin-bottom: 0.75rem;
+}
+.star-rating { 
+    font-size: 1.5rem; 
+    cursor: pointer; 
+    color: var(--star-grey); 
+    display: inline-block; 
+}
+
+.star-rating .star:hover { 
+    color: var(--star-gold); 
+}
+.star-rating .star.active { 
+    color: var(--star-gold); 
+}
+.rating-group.error .error-msg { 
+    display: block; 
+}
+
+/* Tags */
+.tags-container { 
+    display: flex; 
+    flex-wrap: wrap;
+    gap: 0.5rem; 
+}
+.tag-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.tag-btn:hover { 
+    background: #f9fafb; 
+    border-color: #d1d5db; 
+}
+.tag-btn.selected {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+/* Radios */
+.radio-group { 
+    display: flex; 
+    gap: 1.5rem; 
+}
+.radio-stack label, .checkbox-group label, .radio-group .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+.checkbox-group.error .error-msg { 
+    display: block; 
+    margin-top: -5px; 
+    margin-bottom: 10px; 
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.submit-btn:hover { 
+    background-color:
+    var(--primary-hover); 
+}
+
+/*Responsiveness*/
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+    .row {
+        flex-direction: column;
+    }
+    .radio-group { 
+        flex-direction: column; 
+        gap: 0.5rem; 
+    }
+}

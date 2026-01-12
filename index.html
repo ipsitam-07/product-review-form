@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Review Form</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <h1>Write a Review</h1>
+        <p>Tell us what you think about your purchase.</p>
+    </header>
+
+    <form id="reviewForm" novalidate>
+        <!--Purchase Information -->
+        <section class="form-section">
+            <h3>Purchase Information</h3>
+            <div class="row">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" value="Wireless Noise-Canceling Headphones" class="readonly-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Product SKU</label>
+                    <input type="text" value="SKU-998877" class="readonly-input" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="purchaseDate">Purchase Date <span class="required-star">*</span></label>
+                <input type="date" id="purchaseDate" name="purchaseDate" required>
+                <span class="error-msg" id="error-purchaseDate"></span>
+            </div>
+        </section>
+
+        <!--Ratings Section-->
+        <section class="form-section">
+            <h3>Rate this Product</h3>
+            
+            <div class="rating-group required">
+                <label>Overall Rating <span class="required-star">*</span></label>
+                <div class="star-rating" data-name="overallRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" name="overallRating" id="overallRating" required>
+                <span class="error-msg" id="error-overallRating"></span>
+            </div>
+
+            <div class="rating-group required">
+                <label>Quality Rating <span class="required-star">*</span></label>
+                <div class="star-rating" data-name="qualityRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" name="qualityRating" id="qualityRating" required>
+                <span class="error-msg" id="error-qualityRating"></span>
+            </div>
+
+            <div class="rating-group required">
+                <label>Value for Money <span class="required-star">*</span></label>
+                <div class="star-rating" data-name="valueRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" name="valueRating" id="valueRating" required>
+                <span class="error-msg" id="error-valueRating"></span>
+            </div>
+
+            <div class="rating-group">
+                <label>Delivery Experience <small>(Optional)</small></label>
+                <div class="star-rating" data-name="deliveryRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" name="deliveryRating" id="deliveryRating">
+            </div>
+
+            <div class="rating-group">
+                <label>Customer Service <small>(Optional)</small></label>
+                <div class="star-rating" data-name="serviceRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" name="serviceRating" id="serviceRating">
+            </div>
+        </section>
+
+        <!--Review Section-->
+        <section class="form-section">
+          <h3>Your Review</h3>
+            <div class="form-group">
+                <label for="reviewTitle">Review Title <span class="required-star">*</span></label>
+                <input type="text" id="reviewTitle" name="reviewTitle" placeholder="Sum up your experience" minlength="10" maxlength="100" required>
+                <div class="helper-text">10-100 characters</div>
+                <span class="error-msg" id="error-reviewTitle"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="reviewDetails">Detailed Review <span class="required-star">*</span></label>
+                <textarea id="reviewDetails" name="reviewDetails" placeholder="What did you like or dislike? What did you use this product for?" minlength="30" maxlength="1000" rows="5" required></textarea>
+                <div class="helper-text">30-1000 characters</div>
+                <span class="error-msg" id="error-reviewDetails"></span>
+            </div>
+            
+            <div class="form-group">
+                <label>Review Type</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="reviewType" value="Verified Purchase" checked> Verified Purchase
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="reviewType" value="General Review"> General Review
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="form-group">
+                <label>Product Tags <small>(Select all that apply)</small></label>
+                <div class="tags-container" id="tagsContainer">
+                    <button type="button" class="tag-btn">Best Quality</button>
+                    <button type="button" class="tag-btn">Great Value</button>
+                    <button type="button" class="tag-btn">Good Packaging</button>
+                    <button type="button" class="tag-btn">Fast Delivery</button>
+                    <button type="button" class="tag-btn">Highly Recommended</button>
+                    <button type="button" class="tag-btn">Poor Quality</button>
+                    <button type="button" class="tag-btn">Not Worth Price</button>
+                    <button type="button" class="tag-btn">Damaged on Arrival</button>
+                </div>
+                <input type="hidden" name="selectedTags" id="selectedTags">
+            </div>
+
+            <div class="form-group">
+                <label>Would you recommend this product? <span class="required-star">*</span></label>
+                <div class="radio-stack">
+                    <label><input type="radio" name="recommend" value="Definitely Yes" required> Definitely Yes</label>
+                    <label><input type="radio" name="recommend" value="Yes"> Yes</label>
+                    <label><input type="radio" name="recommend" value="Maybe"> Maybe</label>
+                    <label><input type="radio" name="recommend" value="No"> No</label>
+                    <label><input type="radio" name="recommend" value="Definitely No"> Definitely No</label>
+                </div>
+                <span class="error-msg" id="error-recommend"></span>
+            </div>
+        </section>
+        
+        <!--Additional Information Section-->
+        <section class="form-section last-section">
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" name="buyAgain"> I would buy this product again
+                </label>
+            </div>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" name="makePublic" required> Make my review public 
+                    <span class="required-star">*</span>
+                </label>
+                <span class="error-msg" id="error-makePublic"></span>
+            </div>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" name="agreeTerms" required> I agree to the <a href="#">Terms & Conditions</a> 
+                    <span class="required-star">*</span>
+                </label>
+                <span class="error-msg" id="error-agreeTerms"></span>
+            </div>
+        </section>
+
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">Submit Review</button>
+        </div>
+    </form>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
