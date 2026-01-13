@@ -21,8 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${review.reviewType}</td>
                 <td>${JSON.stringify(review.tags)}</td>
                 <td>${review.recommend}</td>
-                <td>Edit
-                    Delete
+                <td>
+                <button class="edit-action-btn">
+                <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="delete-action-btn">
+                <i class="fa-solid fa-trash"></i>
+                </button>
                 </td>
             `;
             tbody.appendChild(row);
@@ -55,6 +60,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    function resetData(){
+        document.getElementById('reviewForm').reset();
+
+        document.getElementById('overallRating').value = '';
+        document.getElementById('qualityRating').value = '';
+        document.getElementById('valueRating').value = '';
+        document.getElementById('deliveryRating').value = '';
+        document.getElementById('serviceRating').value = '';
+        document.getElementById('selectedTags').value = '[]';
+
+        document.querySelectorAll('.star').forEach(star => {
+            star.classList.remove('active');
+        });
+
+        document.querySelectorAll('.star-rating').forEach(star => {
+            star.removeAttribute('data-selected');
+        });
+
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        })
+    }
+
     //Star rating logic
     starContainers.forEach(container => {
         const stars = container.querySelectorAll('.star');
@@ -177,10 +205,9 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             submittedReviews.push(formData);
             localStorage.setItem('reviews', JSON.stringify(submittedReviews));
-            console.log("data saved to local storage.");
-            console.log(submittedReviews);
             renderTable();
             alert("Thank You! Your review has been submitted successfully.");
+            resetData();
         } else {
             const firstError = document.querySelector('.error');
             if (firstError){

@@ -9,6 +9,7 @@
     --table-head-bg: #e0e6f0;
     --border: #e5e7eb;
     --error: #ef4444;
+    --error-hover: #f31515;
     --star-gold: #fbbf24;
     --star-grey: #d1d5db;
     --box-shadow: #0000001a;
@@ -68,7 +69,10 @@ th {
     font-weight: bold;
     color: var(--text-main);
 }
-
+.table-main-content {
+    height: 1640px;
+    overflow: auto;
+}
 .container {
     max-width: 700px;
     background: var(--card-bg);
@@ -249,6 +253,29 @@ input:focus, textarea:focus {
     var(--primary-hover); 
 }
 
+.edit-action-btn {
+    font-size: 1rem;
+    background-color: transparent;
+    color: var(--primary);
+    padding: 10px 10px 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.edit-action-btn :hover{
+    color: var(--primary-hover);
+}
+.delete-action-btn {
+    font-size: 1rem;
+    background-color: transparent;
+    color: var(--error);
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-action-btn :hover {
+    color: var(--error-hover);
+}
 /*Responsiveness*/
 @media screen and (max-width: 600px) {
     .form-container {
