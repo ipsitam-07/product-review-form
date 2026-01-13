@@ -3,7 +3,31 @@ document.addEventListener('DOMContentLoaded', () => {
     let submittedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
 
     const starContainers = document.querySelectorAll('.star-rating');
+    renderTable();
+    //Render table function
+    function renderTable(){
+        const tbody = document.querySelector('#reviewsTable tbody');
 
+        tbody.innerHTML = '';
+
+        submittedReviews.forEach(review => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${review.title}</td>
+                <td>${review.details}</td>
+                <td>${review.date}</td>
+                <td>${JSON.stringify(review.ratings)}</td>
+                <td>${review.reviewType}</td>
+                <td>${JSON.stringify(review.tags)}</td>
+                <td>${review.recommend}</td>
+                <td>Edit
+                    Delete
+                </td>
+            `;
+            tbody.appendChild(row);
+        })
+    }
     //Helper functions
     function clearError(element){
         element.classList.remove('error');
@@ -155,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('reviews', JSON.stringify(submittedReviews));
             console.log("data saved to local storage.");
             console.log(submittedReviews);
+            renderTable();
             alert("Thank You! Your review has been submitted successfully.");
         } else {
             const firstError = document.querySelector('.error');

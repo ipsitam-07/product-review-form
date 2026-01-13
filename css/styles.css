@@ -30,13 +30,12 @@ small{
     gap: 2rem;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0.75rem;
     align-items: flex-start;
 }
 
 /* Top Form Container*/
 .form-container {
-    flex: 0 0 700px;
+    flex: 0 0 590px;
 }
 /* Table styling */
 .table-layout {
@@ -60,7 +59,10 @@ th, td {
     text-align: left;
     padding: 12px;
 }
-
+tbody td {
+    max-width: 70px;
+    word-wrap: break-word;
+}
 th {
     background-color: var(--table-head-bg);
     font-weight: bold;
