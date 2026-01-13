@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
     let submittedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
-
     const starContainers = document.querySelectorAll('.star-rating');
     renderTable();
     //Render table function
@@ -10,6 +9,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tbody.innerHTML = '';
 
+        const ratings = (obj) => {
+
+        const labels = {
+            overall: "Overall",
+            quality: "Quality",
+            value: "Value",
+            delivery: "Delivery",
+            service: "Service"
+        };
+ 
+        let labelStyle = '<div style="display:flex; flex-direction:column; gap:4px;">';
+        
+        for (const [key, value] of Object.entries(obj)) {
+            if (value) {
+                const label = labels[key] || key; 
+                labelStyle += `
+                    <div style="font-size: 0.85rem;">
+                        ${label}: ${value}/5
+                    </div>
+                `;
+            }
+        }
+        labelStyle += '</div>';
+        return labelStyle;
+    }
+
         submittedReviews.forEach(review => {
             const row = document.createElement('tr');
 
@@ -17,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${review.title}</td>
                 <td>${review.details}</td>
                 <td>${review.date}</td>
-                <td>${JSON.stringify(review.ratings)}</td>
+                <td>${ratings(review.ratings)}</td>
                 <td>${review.reviewType}</td>
                 <td>${JSON.stringify(review.tags)}</td>
                 <td>${review.recommend}</td>
