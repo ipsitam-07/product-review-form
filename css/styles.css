@@ -277,9 +277,14 @@ input:focus, textarea:focus {
     color: var(--error-hover);
 }
 /*Responsiveness*/
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1024px) {
+    .layout {
+        flex-direction: column;
+    }
+
     .form-container {
-        padding: 1rem;
+        flex: 1;
+        width: 100%;
     }
     .row {
         flex-direction: column;
@@ -287,5 +292,26 @@ input:focus, textarea:focus {
     .radio-group { 
         flex-direction: column; 
         gap: 0.5rem; 
+    }
+
+    .table-layout {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    body {
+        margin: 0.5rem;
+    }
+
+    th, td {
+        font-size: 0.7rem;
+        padding: 8px;
+        max-width: 120px;
+    }
+
+    .table-main-content {
+        max-height: 60vh;
     }
 }

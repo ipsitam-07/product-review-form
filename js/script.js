@@ -199,12 +199,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const tags = (tagsArray) => {      
         return tagsArray.map(tag => 
             `<span style="
-                display:block; 
+                display:block;
+                max-width=100%; 
                 background:#e0e7ff; 
                 color:#4f46e5; 
                 padding:2px 8px; 
                 border-radius:12px; 
                 font-size:0.75rem; 
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis; 
                 margin:2px;">
                 ${tag}
             </span>`
