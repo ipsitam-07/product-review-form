@@ -42,7 +42,7 @@ small{
 .table-layout {
     flex: 1;
     min-width: 0;
-    padding: 2rem;
+    padding: 1rem;
     background: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 4px 6px var(--box-shadow);

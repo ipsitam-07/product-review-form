@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
+    let submittedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
 
     const starContainers = document.querySelectorAll('.star-rating');
 
@@ -131,6 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if(isValid){
+            const formData = {
+                id: Date.now(),
+                date: purchaseDate.value,
+                title: title.value,
+                details: details.value,
+                ratings: {
+                    overall: document.getElementById('overallRating').value,
+                    quality: document.getElementById('qualityRating').value,
+                    value: document.getElementById('valueRating').value,
+                    delivery: document.getElementById('deliveryRating').value,
+                    service: document.getElementById('serviceRating').value,
+                },
+                reviewType: document.querySelector('input[name="reviewType"]:checked').value,
+                tags: JSON.parse(selectedTagsInput.value ||'[]'),
+                recommend: recommend.value,
+                buyAgain: document.querySelector('input[name="buyAgain"]').checked,
+                makePublic: makePublic.checked,
+                agreeTerms: termsCondtions.checked
+            };
+            submittedReviews.push(formData);
+            localStorage.setItem('reviews', JSON.stringify(submittedReviews));
+            console.log("data saved to local storage.");
+            console.log(submittedReviews);
             alert("Thank You! Your review has been submitted successfully.");
         } else {
             const firstError = document.querySelector('.error');
