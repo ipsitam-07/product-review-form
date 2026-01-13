@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(clickedBtn.tagName === "I"){
             clickedBtn = clickedBtn.parentElement;
         }
-
+        //editing
         if(clickedBtn.className === "edit-action-btn"){
 
             selectedRow = clickedBtn.parentElement.parentElement;
@@ -159,6 +159,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.querySelector(".submit-btn").innerText = "Save Review";
             document.querySelector(".container").scrollIntoView();
+        }
+
+
+        //delete
+
+        if(clickedBtn.className==="delete-action-btn"){
+
+            let deleteRow = clickedBtn.parentElement.parentElement;
+            let index = deleteRow.rowIndex- 1;
+
+            let confirm = window.confirm("Are you sure you want to delete the row?");
+
+
+                if(confirm){
+                    submittedReviews.splice(index, 1);
+                    localStorage.setItem("reviews", JSON.stringify(submittedReviews));
+
+                    deleteRow.remove();
+                }
+
+
+                //deleting while editing handling
+                if(selectedRow === deleteRow){
+                    resetData();
+                    editing = false;
+
+                    document.querySelector('.submit-btn').innerText= "Submit Review";
+
+                    selectedRow = null;
+                }
+
+                alert("Review deleted!");
         }
     });
 
@@ -397,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 editing = false;
 
                 document.querySelector('.submit-btn').innerText= "Submit Review";
-                
+
                 selectedRow = null;
             }
 
