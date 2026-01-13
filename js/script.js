@@ -2,11 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
     let submittedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
     const starContainers = document.querySelectorAll('.star-rating');
+    let selectedRow = null;
+    let editing = false;
+    const tbody = document.querySelector('#reviewsTable tbody');
     renderTable();
+
     //Render table function
     function renderTable(){
-        const tbody = document.querySelector('#reviewsTable tbody');
-
+        
         tbody.innerHTML = '';
 
         const ratings = (obj) => {
@@ -34,6 +37,133 @@ document.addEventListener('DOMContentLoaded', () => {
         labelStyle += '</div>';
         return labelStyle;
     }
+
+    //edit
+    tbody.addEventListener("click", function(e){
+
+        let clickedBtn = e.target;
+
+        if(clickedBtn.tagName === "I"){
+            clickedBtn = clickedBtn.parentElement;
+        }
+
+        if(clickedBtn.className === "edit-action-btn"){
+
+            selectedRow = clickedBtn.parentElement.parentElement;
+            editing = true;
+
+            let tds = selectedRow.getElementsByTagName("td");
+            //first review section editing
+
+            document.getElementById("reviewTitle").value = tds[0].innerText;
+            document.getElementById("reviewDetails").value = tds[1].innerText;
+            document.getElementById("purchaseDate").value = tds[2].innerText;
+
+            //star editing
+            let allStars = document.querySelectorAll(".star");
+
+            for(let i=0;i<allStars.length;i++){
+
+            allStars[i].classList.remove("active");
+            }
+
+        let ratingStar = selectedRow.cells[3];
+        let ratingText = ratingStar.innerText.split("\n");
+
+        for (let i =0; i<ratingText.length; i++){
+
+            if(ratingText[i].indexOf("Overall") !== -1){
+                let num = ratingText[i].split(":")[1].trim().charAt(0);
+                document.getElementById("overallRating").value = num;
+                highlightStars(
+                    document.querySelector('[data-name="overallRating"]'),
+                    num
+                );
+    
+            }
+
+            if(ratingText[i].indexOf("Quality") !== -1){
+                let num = ratingText[i].split(":")[1].trim().charAt(0);
+                document.getElementById("qualityRating").value = num;
+                highlightStars(
+                    document.querySelector('[data-name="qualityRating"]'),
+                    num
+                ) ;     
+            }
+            
+
+            if(ratingText[i].indexOf("Value") !== -1){
+                let num = ratingText[i].split(":")[1].trim().charAt(0);
+                document.getElementById("valueRating").value = num;
+                highlightStars(
+                    document.querySelector('[data-name="valueRating"]'),
+                    num
+                ) ;
+
+            }
+
+
+            if(ratingText[i].indexOf("Delivery") !== -1){
+                let num = ratingText[i].split(":")[1].trim().charAt(0);
+                document.getElementById("deliveryRating").value = num;
+                highlightStars(
+                    document.querySelector('[data-name="deliveryRating"]'),
+                    num
+                );      
+            }
+
+            if(ratingText[i].indexOf("Service") !== -1){
+                let num = ratingText[i].split(":")[1].trim().charAt(0);
+                document.getElementById("serviceRating").value = num;
+                highlightStars(
+                    document.querySelector('[data-name="serviceRating"]'),
+                    num
+                );      
+            }
+    }
+
+        //Tags section edit
+        let tagBtns = document.getElementsByClassName("tag-btn");
+
+        for(let i=0;i<tagBtns.length;i++){
+            tagBtns[i].classList.remove("selected");
+        }
+
+        let tag = selectedRow.cells[5];
+
+        let tagText = tag.innerText.split("\n");
+
+        let selectedTags = [];
+
+        for(let i=0;i<tagBtns.length;i++){
+            for(let j=0;j<tagText.length;j++){
+                if(tagBtns[i].innerText === tagText[j]){
+                    tagBtns[i].classList.add("selected");
+                    selectedTags.push(tagText[j]);
+                }
+            }
+        }
+
+        document.getElementById("selectedTags").value = JSON.stringify(selectedTags);
+
+            //recommend product? edit
+        let recommend = document.getElementsByName("recommend");
+
+
+            for(let i=0;i<recommend.length; i++){
+                if(recommend[i].value === tds[6].innerText){
+                    recommend[i].checked = true;
+                }
+            }
+
+
+            document.querySelector(".submit-btn").innerText = "Save Review";
+            document.querySelector(".container").scrollIntoView();
+        }
+    });
+
+
+
     const tags = (tagsArray) => {      
         return tagsArray.map(tag => 
             `<span style="
@@ -242,10 +372,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 makePublic: makePublic.checked,
                 agreeTerms: termsCondtions.checked
             };
-            submittedReviews.push(formData);
+            if (editing===false){
+                submittedReviews.push(formData);
+                alert("Thank You! Your review has been submitted successfully.");
+            }
+            else {
+
+                let rowIndex = selectedRow.rowIndex - 1;
+
+
+                submittedReviews[rowIndex] = formData;
+
+                selectedRow.cells[0].innerText = formData.title;
+
+                selectedRow.cells[1].innerText = formData.details;
+
+                selectedRow.cells[2].innerText = formData.date;
+                selectedRow.cells[3].innerText = formData.recommend;
+
+
+                alert("Your review has been updated successfully!");
+
+
+                editing = false;
+
+                document.querySelector('.submit-btn').innerText= "Submit Review";
+                
+                selectedRow = null;
+            }
+
+
             localStorage.setItem('reviews', JSON.stringify(submittedReviews));
             renderTable();
-            alert("Thank You! Your review has been submitted successfully.");
+            
             resetData();
         } else {
             const firstError = document.querySelector('.error');
