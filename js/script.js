@@ -34,7 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
         labelStyle += '</div>';
         return labelStyle;
     }
-
+    const tags = (tagsArray) => {      
+        return tagsArray.map(tag => 
+            `<span style="
+                display:block; 
+                background:#e0e7ff; 
+                color:#4f46e5; 
+                padding:2px 8px; 
+                border-radius:12px; 
+                font-size:0.75rem; 
+                margin:2px;">
+                ${tag}
+            </span>`
+        ).join('');
+    }
+ 
         submittedReviews.forEach(review => {
             const row = document.createElement('tr');
 
@@ -44,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${review.date}</td>
                 <td>${ratings(review.ratings)}</td>
                 <td>${review.reviewType}</td>
-                <td>${JSON.stringify(review.tags)}</td>
+                <td style="max-width=150px">${tags(review.tags)}</td>
                 <td>${review.recommend}</td>
                 <td>
                 <button class="edit-action-btn">
