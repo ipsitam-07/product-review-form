@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Review Form</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://kit.fontawesome.com/50d208eaea.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<div class="layout">
+    <div class="form-container">
 <div class="container">
     <!-- Header -->
     <header class="header">
@@ -190,8 +192,63 @@
             <button type="submit" class="submit-btn">Submit Review</button>
         </div>
     </form>
-</div>
+    </div>
+    </div>
 
+    <!-- Table Container-->
+    <div class="table-layout">
+        <div class="table-container">
+            <div class="table-header">
+                <h1>Submitted Reviews</h1>
+                <small>Live data</small>
+            </div>
+
+            <div class="table-main-content">
+                <table id="reviewsTable">
+                    <thead>
+                        <tr>
+                            <th>Review Title</th>
+                            <th>Review Description</th>
+                            <th>Purchase Date</th>
+                            <th>Rating</th>
+                            <th>Review Type</th>
+                            <th>Product Tags</th>
+                            <th>Recommend</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                        <!--Sample data-->
+                        <tbody>
+                            <td>
+                                Sample Review Title
+                            </td>
+                            <td>Sample Review Description</td>
+                            <td>11/11/2011</td>
+                            <td>
+                                <ul>
+                                    <li>Overall Rating</li>
+                                    <li>Quality Rating</li>
+                                    <li>Value For Money</li>
+                                </ul>
+                            </td>
+                            <td>
+                                Verified Purchase
+                            </td>
+                            <td>
+                                Yes
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Best Quality</li>
+                                    <li>Good Product</li>
+                                </ul>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="js/script.js"></script>
 </body>
 </html>

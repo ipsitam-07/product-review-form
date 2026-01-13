@@ -6,10 +6,13 @@
     --text-main: #1f2937;
     --text-heading: #140bbb;
     --text-muted: #6b7280;
+    --table-head-bg: #e0e6f0;
     --border: #e5e7eb;
     --error: #ef4444;
+    --error-hover: #f31515;
     --star-gold: #fbbf24;
     --star-grey: #d1d5db;
+    --box-shadow: #0000001a;
 }
 
 body {
@@ -22,23 +25,70 @@ small{
     font-weight: normal;
     color: var(--text-muted);
 }
+/*Main Layout*/
+.layout {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* Top Form Container*/
+.form-container {
+    flex: 0 0 590px;
+}
+/* Table styling */
+.table-layout {
+    flex: 1;
+    min-width: 0;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--box-shadow);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    font-size: 0.8rem;
+    border: 1px solid var(--text-main);
+    text-align: left;
+    padding: 12px;
+}
+tbody td {
+    max-width: 70px;
+    word-wrap: break-word;
+}
+th {
+    background-color: var(--table-head-bg);
+    font-weight: bold;
+    color: var(--text-main);
+}
+.table-main-content {
+    height: 1640px;
+    overflow: auto;
+}
 .container {
     max-width: 700px;
-    margin: 0 auto;
     background: var(--card-bg);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px var(--box-shadow);
 }
 
-.header {
+.header, .table-header {
     text-align: center;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--border);
     padding-bottom: 1rem;
 }
 
-.header h1 {
+h1 {
     margin: 0; 
     font-size: 1.5rem; 
     font-weight: 600; 
@@ -203,10 +253,38 @@ input:focus, textarea:focus {
     var(--primary-hover); 
 }
 
+.edit-action-btn {
+    font-size: 1rem;
+    background-color: transparent;
+    color: var(--primary);
+    padding: 10px 10px 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.edit-action-btn :hover{
+    color: var(--primary-hover);
+}
+.delete-action-btn {
+    font-size: 1rem;
+    background-color: transparent;
+    color: var(--error);
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-action-btn :hover {
+    color: var(--error-hover);
+}
 /*Responsiveness*/
-@media screen and (max-width: 600px) {
-    .container {
-        padding: 1rem;
+@media screen and (max-width: 1024px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .form-container {
+        flex: 1;
+        width: 100%;
     }
     .row {
         flex-direction: column;
@@ -214,5 +292,26 @@ input:focus, textarea:focus {
     .radio-group { 
         flex-direction: column; 
         gap: 0.5rem; 
+    }
+
+    .table-layout {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    body {
+        margin: 0.5rem;
+    }
+
+    th, td {
+        font-size: 0.7rem;
+        padding: 8px;
+        max-width: 120px;
+    }
+
+    .table-main-content {
+        max-height: 60vh;
     }
 }
