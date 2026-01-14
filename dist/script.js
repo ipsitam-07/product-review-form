@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
+    let submittedReviews = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
     const starContainers = document.querySelectorAll('.star-rating');
     //Helper functions
     //Function to highlight stars
@@ -90,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
         //purchase date validation
-        const date = document.getElementById('purchaseDate');
-        if (!date.value) {
+        const datePurchase = document.getElementById('purchaseDate');
+        if (!datePurchase.value) {
             showError('purchaseDate', "Purchase Date is required.");
             isValid = false;
         }
@@ -122,6 +123,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         //final submission
         if (isValid) {
+            const formData = {
+                id: Date.now(),
+                date: datePurchase.value,
+                title: title.value,
+                details: details.value,
+                ratings: {
+                    overall: document.getElementById('overallRating').value,
+                    quality: document.getElementById('qualityRating').value,
+                    value: document.getElementById('valueRating').value,
+                    delivery: document.getElementById('deliveryRating').value,
+                    service: document.getElementById('serviceRating').value,
+                },
+                reviewType: document.querySelector('input[name="reviewType"]:checked')?.value,
+                tags: JSON.parse(selectedTagsInput.value || '[]'),
+                recommend: rec.value,
+                buyAgain: document.querySelector('input[name="buyAgain"]')?.checked,
+                makePublic: makePublic.checked,
+                agreeterms: terms.checked
+            };
+            submittedReviews.push(formData);
+            localStorage.setItem('reviews', JSON.stringify(submittedReviews));
             alert("Review has been submitted successfully!");
             resetData();
         }
@@ -139,18 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (resetForm) {
             resetForm.reset();
         }
-        let overall = document.getElementById('overallRating');
-        let quality = document.getElementById('qualityRating');
-        let value = document.getElementById('valueRating');
-        let delivery = document.getElementById('deliveryRating');
-        let service = document.getElementById('serviceRating');
-        overall.value = '';
-        quality.value = '';
-        value.value = '';
-        delivery.value = '';
-        service.value = '';
-        let tags = document.getElementById('selectedTags');
-        tags.value = '[]';
+        document.getElementById('overallRating').value = '';
+        document.getElementById('qualityRating').value = '';
+        document.getElementById('valueRating').value = '';
+        document.getElementById('deliveryRating').value = '';
+        document.getElementById('serviceRating').value = '';
+        document.getElementById('selectedTags').value = '[]';
         document.querySelectorAll('.star').forEach(star => {
             star.classList.remove('active');
         });

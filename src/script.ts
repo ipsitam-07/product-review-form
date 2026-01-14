@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
+    let submittedReviews = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
     const starContainers : any = document.querySelectorAll('.star-rating');
     //Helper functions
     //Function to highlight stars
@@ -110,8 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //purchase date validation
-        const date = document.getElementById('purchaseDate');
-        if(!(date as HTMLInputElement).value) {
+        const datePurchase = document.getElementById('purchaseDate');
+        if(!(datePurchase as HTMLInputElement).value) {
             showError('purchaseDate', "Purchase Date is required.");
             isValid = false;
         }
@@ -153,6 +154,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //final submission
         if(isValid){
+            const formData = {
+                id: Date.now(),
+                date: (datePurchase as HTMLInputElement).value,
+                title: (title as HTMLInputElement).value,
+                details: (details as HTMLInputElement).value,
+                ratings: {
+
+                    overall: (document.getElementById('overallRating') as HTMLInputElement).value,
+                    quality: (document.getElementById('qualityRating') as HTMLInputElement).value,
+                    value: (document.getElementById('valueRating') as HTMLInputElement).value,
+                    delivery: (document.getElementById('deliveryRating') as HTMLInputElement).value,
+                    service: (document.getElementById('serviceRating') as HTMLInputElement).value,
+                },
+                reviewType: document.querySelector<HTMLInputElement>('input[name="reviewType"]:checked')?.value,
+                tags: JSON.parse((selectedTagsInput as HTMLInputElement).value || '[]'),
+                recommend: (rec as HTMLInputElement).value,
+                buyAgain: document.querySelector<HTMLInputElement>('input[name="buyAgain"]')?.checked,
+                makePublic: (makePublic as HTMLInputElement).checked,
+                agreeterms: (terms as HTMLInputElement).checked
+                
+            };
+            submittedReviews.push(formData);
+            localStorage.setItem('reviews', JSON.stringify(submittedReviews));
             alert("Review has been submitted successfully!");
             resetData()
         } else {
@@ -172,21 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
             resetForm.reset();
         }
 
-        let overall = document.getElementById('overallRating');
-        let quality = document.getElementById('qualityRating');
-        let value = document.getElementById('valueRating');
-        let delivery = document.getElementById('deliveryRating');
-        let service = document.getElementById('serviceRating');
-
-        (overall as HTMLInputElement).value = '';
-        (quality as HTMLInputElement).value = '';
-        (value as HTMLInputElement).value = '';
-        (delivery as HTMLInputElement).value = '';
-        (service as HTMLInputElement).value = '';
+        (document.getElementById('overallRating') as HTMLInputElement).value = '';
+        (document.getElementById('qualityRating') as HTMLInputElement).value = '';
+        (document.getElementById('valueRating') as HTMLInputElement).value = '';
+        (document.getElementById('deliveryRating') as HTMLInputElement).value = '';
+        (document.getElementById('serviceRating') as HTMLInputElement).value = '';
 
 
-        let tags = document.getElementById('selectedTags');
-        (tags as HTMLInputElement).value = '[]';
+        (document.getElementById('selectedTags') as HTMLInputElement).value = '[]';
 
 
         document.querySelectorAll('.star').forEach(star => {
