@@ -122,13 +122,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById(name);
 
             if(!(input as HTMLInputElement).value){
-                
+
                 showError(name, 'Please enter a rating.');
                 isValid = false;
             }
 
         })
 
+        //additional checkbox validation
+        const rec = document.querySelector('input[name="recommend"]:checked');
+
+        if(!rec){
+            showError('recommend', 'Please select an option');
+            isValid = false;
+        }
+
+
+        const makePublic = document.querySelector('input[name="makePublic"]');
+        if(!makePublic){
+            showError('makePublic', 'Required');
+            isValid = false;
+        }
+
+
+        const terms = document.querySelector('input[name="agreeTerms"]');
+        if(!(terms as HTMLInputElement).checked){
+            showError('agreeTerms', 'Required');
+            isValid = false;
+        }
+
+        //final submission
         if(isValid){
             alert("Review has been submitted successfully!");
         } else {
