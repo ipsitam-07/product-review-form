@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //final submission
         if (isValid) {
             alert("Review has been submitted successfully!");
+            resetData();
         }
         else {
             const error = document.querySelector('.error');
@@ -131,6 +132,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    //reset form function
+    function resetData() {
+        let resetForm;
+        resetForm = document.getElementById('reviewForm');
+        if (resetForm) {
+            resetForm.reset();
+        }
+        let overall = document.getElementById('overallRating');
+        let quality = document.getElementById('qualityRating');
+        let value = document.getElementById('valueRating');
+        let delivery = document.getElementById('deliveryRating');
+        let service = document.getElementById('serviceRating');
+        overall.value = '';
+        quality.value = '';
+        value.value = '';
+        delivery.value = '';
+        service.value = '';
+        let tags = document.getElementById('selectedTags');
+        tags.value = '[]';
+        document.querySelectorAll('.star').forEach(star => {
+            star.classList.remove('active');
+        });
+        document.querySelectorAll('.star-rating').forEach(star => {
+            star.removeAttribute('data-selected');
+        });
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+    }
 });
 export {};
 //# sourceMappingURL=script.js.map

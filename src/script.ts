@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //final submission
         if(isValid){
             alert("Review has been submitted successfully!");
+            resetData()
         } else {
             const error = document.querySelector('.error');
             if(error) {
@@ -161,5 +162,47 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     })
+
+
+    //reset form function
+    function resetData(){
+        let resetForm:HTMLFormElement;
+        resetForm= <HTMLFormElement>document.getElementById('reviewForm');
+        if(resetForm){
+            resetForm.reset();
+        }
+
+        let overall = document.getElementById('overallRating');
+        let quality = document.getElementById('qualityRating');
+        let value = document.getElementById('valueRating');
+        let delivery = document.getElementById('deliveryRating');
+        let service = document.getElementById('serviceRating');
+
+        (overall as HTMLInputElement).value = '';
+        (quality as HTMLInputElement).value = '';
+        (value as HTMLInputElement).value = '';
+        (delivery as HTMLInputElement).value = '';
+        (service as HTMLInputElement).value = '';
+
+
+        let tags = document.getElementById('selectedTags');
+        (tags as HTMLInputElement).value = '[]';
+
+
+        document.querySelectorAll('.star').forEach(star => {
+            star.classList.remove('active');
+        });
+
+
+        document.querySelectorAll('.star-rating').forEach(star => {
+            star.removeAttribute('data-selected');
+        });
+
+
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        })
+
+    }
 
 });
