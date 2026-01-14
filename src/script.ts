@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('reviewForm');
     const starContainers : any = document.querySelectorAll('.star-rating');
     //Helper functions
     //Function to highlight stars
@@ -19,6 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
         element.classList.remove('error');
         const errorMsg = document.querySelector('.error-msg');
         if(errorMsg) errorMsg.innerHTML = '';
+    }
+
+
+    //show error logic
+    function showError(id, msg){
+        const errorMsg = document.getElementById(`error-${id}`) as HTMLElement;
+        if(errorMsg){
+            errorMsg.innerText = msg;
+            errorMsg.parentElement?.classList.add('error');
+        }
     }
     //star rating logic
 
@@ -71,6 +82,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    //form validation before submission
+    form?.addEventListener('submit', (e) => {
+        e.preventDefault();
 
+        let isValid = true;
+
+        document.querySelectorAll<HTMLElement>('error-msg').forEach(ele => ele.innerText = '');
+
+        document.querySelectorAll('.form-group, rating-group, .checkbox-group').forEach(
+        ele => ele.classList.remove('error')
+        );
+
+        //title validation
+        const title = document.getElementById('reviewTitle');
+        if((title as HTMLInputElement).value.length < 10 || (title as HTMLInputElement).value.length >100 ) {
+            showError('reviewTitle', "Review title is required and must be between 10-100 characters.");
+            isValid = false;
+        }
+
+
+        //details validation
+        const details = document.getElementById('reviewDetails');
+        if((details as HTMLInputElement).value.length < 30 || (details as HTMLInputElement).value.length >1000 ) {
+            showError('reviewDetails', "Review details is required and must be between 30-1000 characters.");
+            isValid = false;
+        }
+
+        if(isValid){
+            alert("Review has been submitted successfully!");
+        } else {
+            const error = document.querySelector('.error');
+            if(error) {
+                error.scrollIntoView();
+            }
+        }
+    })
 
 });

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('reviewForm');
     const starContainers = document.querySelectorAll('.star-rating');
     //Helper functions
     //Function to highlight stars
@@ -20,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorMsg = document.querySelector('.error-msg');
         if (errorMsg)
             errorMsg.innerHTML = '';
+    }
+    //show error logic
+    function showError(id, msg) {
+        const errorMsg = document.getElementById(`error-${id}`);
+        if (errorMsg) {
+            errorMsg.innerText = msg;
+            errorMsg.parentElement?.classList.add('error');
+        }
     }
     //star rating logic
     starContainers.forEach((container) => {
@@ -61,6 +70,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             selectedTagsInput.value = JSON.stringify(seelectedTags);
         });
+    });
+    //form validation before submission
+    form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let isValid = true;
+        document.querySelectorAll('error-msg').forEach(ele => ele.innerText = '');
+        document.querySelectorAll('.form-group, rating-group, .checkbox-group').forEach(ele => ele.classList.remove('error'));
+        //title validation
+        const title = document.getElementById('reviewTitle');
+        if (title.value.length < 10 || title.value.length > 100) {
+            showError('reviewTitle', "Review title is required and must be between 10-100 characters.");
+            isValid = false;
+        }
+        //details validation
+        const details = document.getElementById('reviewDetails');
+        if (details.value.length < 30 || details.value.length > 1000) {
+            showError('reviewDetails', "Review details is required and must be between 30-1000 characters.");
+            isValid = false;
+        }
+        if (isValid) {
+            alert("Review has been submitted successfully!");
+        }
+        else {
+            const error = document.querySelector('.error');
+            if (error) {
+                error.scrollIntoView();
+            }
+        }
     });
 });
 export {};
