@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.querySelector('#reviewsTable tbody');
 
 
+    renderTable()
+
 
     //Helper functions
     //Function to highlight stars
@@ -238,14 +240,67 @@ document.addEventListener('DOMContentLoaded', () => {
         submittedReviews.forEach(review => {
             const row = document.createElement('tr');
 
+            //ratings parsing
+            const ratings = (obj) => {
+                const labels = {
+
+                    overall: "Overall",
+                    quality: "Quality",
+                    value: "Value",
+                    delivery: "Delivery",
+                    service: "Service"
+
+                };
+
+                let labelStyle = '<div style="display:flex; flex-direction:column; gap:4px;">';
+
+
+                for(const[key, value] of Object.entries(obj)){
+
+                    if(value){
+                        const label = labels[key] || key;
+
+                        labelStyle += `
+                            <div style="font-size: 0.85rem;">
+                                ${label}: ${value}/5
+                            </div>
+                        `;
+                    }
+                }
+
+                labelStyle += '</div>';
+
+                return labelStyle;
+            }
+
+            //tags parsing
+            const tags = (tagsArray) => {      
+            return tagsArray.map(tag => 
+                `<span style="
+                    display:block;
+                    max-width=100%; 
+                    background:#e0e7ff; 
+                    color:#4f46e5; 
+                    padding:2px 8px; 
+                    border-radius:12px; 
+                    font-size:0.75rem; 
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis; 
+                    margin:2px;">
+                    ${tag}
+                </span>`
+                ).join('');
+            }   
+            
 
             row.innerHTML = `
                 <td>${review.title}</td>
                 <td>${review.details}</td>
                 <td>${review.date}</td>
-                <td>${review.ratings}</td>
+                <td>${ratings(review.ratings)}</td>
                 <td>${review.reviewType}</td>
-                <td style="max-width=150px">${review.tags}</td>
+                <td style="max-width=150px">${tags(review.tags)}</td>
                 <td>${review.recommend}</td>
                 <td>
                 <button class="edit-action-btn">
@@ -262,5 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
     }
+
+
 
 });
