@@ -43,6 +43,25 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightStars(container, selected);
         });
     });
+    //tags selection logic
+    const tagBtns = document.querySelectorAll('.tag-btn');
+    const selectedTagsInput = document.getElementById('selectedTags');
+    let seelectedTags = [];
+    tagBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('selected');
+            let tagText = btn.innerText;
+            if (btn.classList.contains('selected')) {
+                if (typeof tagText === 'object') {
+                    seelectedTags.push(tagText);
+                }
+            }
+            else {
+                seelectedTags = seelectedTags.filter(t => t !== tagText);
+            }
+            selectedTagsInput.value = JSON.stringify(seelectedTags);
+        });
+    });
 });
 export {};
 //# sourceMappingURL=script.js.map

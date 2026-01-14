@@ -49,4 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-})
+    //tags selection logic
+    const tagBtns = document.querySelectorAll<HTMLElement>('.tag-btn');
+    const selectedTagsInput = document.getElementById('selectedTags');
+    let seelectedTags = [];
+
+    tagBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('selected');
+            let tagText : string | object = btn.innerText;
+
+            if(btn.classList.contains('selected')){
+                if(typeof tagText === 'object'){seelectedTags.push(tagText);}
+                
+            }
+            else {
+                seelectedTags = seelectedTags.filter(t => t !== tagText);
+            }
+
+            (selectedTagsInput as HTMLInputElement).value = JSON.stringify(seelectedTags);
+        });
+    });
+
+
+
+});
