@@ -1,12 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
-    let submittedReviews = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
+    let submittedReviews : Review[] = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
     const starContainers : any = document.querySelectorAll('.star-rating');
     const tbody = document.querySelector('#reviewsTable tbody');
 
 
     renderTable()
 
+    //types
+    type Ratings = {
+    overall: string;
+    quality: string;
+    value: string;
+    delivery: string;
+    service: string;
+    };
+
+
+    type Review = {
+    id: number;
+    date: string;
+    title: string;
+    details: string;
+    ratings: Ratings;
+    reviewType: string;
+    tags: string[];
+    recommend: string;
+    buyAgain: boolean;
+    makePublic: boolean;
+    agreeTerms: boolean;
+    };
 
     //Helper functions
     //Function to highlight stars
@@ -70,22 +93,25 @@ document.addEventListener('DOMContentLoaded', () => {
     //tags selection logic
     const tagBtns = document.querySelectorAll<HTMLElement>('.tag-btn');
     const selectedTagsInput = document.getElementById('selectedTags');
-    let seelectedTags: string[] = [];
+
+    (selectedTagsInput as HTMLInputElement).value = '[]';
+
+    let selectedTags: string[] = [];
 
     tagBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             btn.classList.toggle('selected');
-            let tagText : string | object = btn.innerText;
+            let tagText : string  = btn.innerText;
 
             if(btn.classList.contains('selected')){
-                if(typeof tagText === 'object'){seelectedTags.push(tagText);}
+                selectedTags.push(tagText);
                 
             }
             else {
-                seelectedTags = seelectedTags.filter(t => t !== tagText);
+                selectedTags = selectedTags.filter(t => t !== tagText);
             }
 
-            (selectedTagsInput as HTMLInputElement).value = JSON.stringify(seelectedTags);
+            (selectedTagsInput as HTMLInputElement).value = JSON.stringify(selectedTags);
         });
     });
 
@@ -160,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //final submission
         if(isValid){
-            const formData = {
+            const formData: Review = {
                 id: Date.now(),
                 date: (datePurchase as HTMLInputElement).value,
                 title: (title as HTMLInputElement).value,
@@ -173,12 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     delivery: (document.getElementById('deliveryRating') as HTMLInputElement).value,
                     service: (document.getElementById('serviceRating') as HTMLInputElement).value,
                 },
-                reviewType: document.querySelector<HTMLInputElement>('input[name="reviewType"]:checked')?.value,
+                reviewType: document.querySelector<HTMLInputElement>('input[name="reviewType"]:checked')?.value || '',
                 tags: JSON.parse((selectedTagsInput as HTMLInputElement).value || '[]'),
                 recommend: (rec as HTMLInputElement).value,
-                buyAgain: document.querySelector<HTMLInputElement>('input[name="buyAgain"]')?.checked,
-                makePublic: (makePublic as HTMLInputElement).checked,
-                agreeterms: (terms as HTMLInputElement).checked
+                buyAgain: document.querySelector<HTMLInputElement>('input[name="buyAgain"]')?.checked || false,
+                makePublic: (makePublic as HTMLInputElement)?.checked || false,
+                agreeTerms: (terms as HTMLInputElement)?.checked || false
                 
             };
             submittedReviews.push(formData);
@@ -198,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //reset form function
     function resetData(){
         let resetForm:HTMLFormElement;
-        resetForm= <HTMLFormElement>document.getElementById('reviewForm');
+        resetForm= document.getElementById('reviewForm') as HTMLFormElement;
         if(resetForm){
             resetForm.reset();
         }
@@ -209,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         (document.getElementById('deliveryRating') as HTMLInputElement).value = '';
         (document.getElementById('serviceRating') as HTMLInputElement).value = '';
 
+        selectedTags = [];
 
         (document.getElementById('selectedTags') as HTMLInputElement).value = '[]';
 
@@ -237,11 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
             tbody.innerHTML = '';
         }
 
-        submittedReviews.forEach(review => {
+        submittedReviews.forEach((review : Review) => {
             const row = document.createElement('tr');
 
             //ratings parsing
-            const ratings = (obj) => {
+            const ratings = (obj : Ratings) => {
                 const labels = {
 
                     overall: "Overall",
@@ -258,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for(const[key, value] of Object.entries(obj)){
 
                     if(value){
-                        const label = labels[key] || key;
+                        const label = labels[key as keyof Ratings] || key;
 
                         labelStyle += `
                             <div style="font-size: 0.85rem;">
@@ -274,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             //tags parsing
-            const tags = (tagsArray) => {      
+            const tags = (tagsArray : string[]) => {      
             return tagsArray.map(tag => 
                 `<span style="
                     display:block;
