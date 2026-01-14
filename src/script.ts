@@ -109,6 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
+        //purchase date validation
+        const date = document.getElementById('purchaseDate');
+        if(!(date as HTMLInputElement).value) {
+            showError('purchaseDate', "Purchase Date is required.");
+            isValid = false;
+        }
+
         if(isValid){
             alert("Review has been submitted successfully!");
         } else {

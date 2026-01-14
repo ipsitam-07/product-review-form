@@ -89,6 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
             showError('reviewDetails', "Review details is required and must be between 30-1000 characters.");
             isValid = false;
         }
+        //purchase date validation
+        const date = document.getElementById('purchaseDate');
+        if (!date.value) {
+            showError('purchaseDate', "Purchase Date is required.");
+            isValid = false;
+        }
         if (isValid) {
             alert("Review has been submitted successfully!");
         }
