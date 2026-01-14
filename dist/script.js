@@ -95,6 +95,32 @@ document.addEventListener('DOMContentLoaded', () => {
             showError('purchaseDate', "Purchase Date is required.");
             isValid = false;
         }
+        //star rating validation
+        const requiredRating = ['overallRating', 'qualityRating', 'valueRating'];
+        requiredRating.forEach(name => {
+            const input = document.getElementById(name);
+            if (!input.value) {
+                showError(name, 'Please enter a rating.');
+                isValid = false;
+            }
+        });
+        //additional checkbox validation
+        const rec = document.querySelector('input[name="recommend"]:checked');
+        if (!rec) {
+            showError('recommend', 'Please select an option');
+            isValid = false;
+        }
+        const makePublic = document.querySelector('input[name="makePublic"]');
+        if (!makePublic.checked) {
+            showError('makePublic', 'Required');
+            isValid = false;
+        }
+        const terms = document.querySelector('input[name="agreeTerms"]');
+        if (!terms.checked) {
+            showError('agreeTerms', 'Required');
+            isValid = false;
+        }
+        //final submission
         if (isValid) {
             alert("Review has been submitted successfully!");
         }

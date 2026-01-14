@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         const makePublic = document.querySelector('input[name="makePublic"]');
-        if(!makePublic){
+        if(!(makePublic as HTMLInputElement).checked){
             showError('makePublic', 'Required');
             isValid = false;
         }
