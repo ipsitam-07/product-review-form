@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     //show error logic
-    function showError(id, msg){
+    function showError(id: string, msg: string){
         const errorMsg = document.getElementById(`error-${id}`) as HTMLElement;
         if(errorMsg){
             errorMsg.innerText = msg;
@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
 
-        star.forEach(star => {
+        star.forEach((star: HTMLElement) => {
             star.addEventListener('mouseover', () => {
-                const value: number = parseInt(star.getAttribute('data-value'));
+                const value: number = parseInt(star.getAttribute('data-value') || '0');
                 highlightStars(container, value);
             });
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //tags selection logic
     const tagBtns = document.querySelectorAll<HTMLElement>('.tag-btn');
     const selectedTagsInput = document.getElementById('selectedTags');
-    let seelectedTags = [];
+    let seelectedTags: string[] = [];
 
     tagBtns.forEach(btn => {
         btn.addEventListener('click', () => {
