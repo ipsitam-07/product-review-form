@@ -116,6 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
+        //star rating validation
+        const requiredRating = ['overallRating', 'qualityRating', 'valueRating'];
+        requiredRating.forEach(name => {
+            const input = document.getElementById(name);
+
+            if(!(input as HTMLInputElement).value){
+                
+                showError(name, 'Please enter a rating.');
+                isValid = false;
+            }
+
+        })
+
         if(isValid){
             alert("Review has been submitted successfully!");
         } else {
