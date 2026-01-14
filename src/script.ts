@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
     let submittedReviews = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
     const starContainers : any = document.querySelectorAll('.star-rating');
+    const tbody = document.querySelector('#reviewsTable tbody');
+
+
+
     //Helper functions
     //Function to highlight stars
     function highlightStars(container: any, value: any) : any {
@@ -178,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submittedReviews.push(formData);
             localStorage.setItem('reviews', JSON.stringify(submittedReviews));
             alert("Review has been submitted successfully!");
+            renderTable()
             resetData()
         } else {
             const error = document.querySelector('.error');
@@ -220,6 +225,42 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.remove('selected');
         })
 
+    }
+
+
+    //render table 
+
+    function renderTable(){
+        if(tbody){
+            tbody.innerHTML = '';
+        }
+
+        submittedReviews.forEach(review => {
+            const row = document.createElement('tr');
+
+
+            row.innerHTML = `
+                <td>${review.title}</td>
+                <td>${review.details}</td>
+                <td>${review.date}</td>
+                <td>${review.ratings}</td>
+                <td>${review.reviewType}</td>
+                <td style="max-width=150px">${review.tags}</td>
+                <td>${review.recommend}</td>
+                <td>
+                <button class="edit-action-btn">
+                <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="delete-action-btn">
+                <i class="fa-solid fa-trash"></i>
+                </button>
+                </td>
+            `;
+
+            tbody?.appendChild(row);
+
+
+        });
     }
 
 });
