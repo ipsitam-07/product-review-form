@@ -78,8 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const details = document.getElementById("reviewDetails") as HTMLInputElement;
     const date = document.getElementById('purchaseDate') as HTMLInputElement;
 
-    const recommed = document.querySelectorAll<HTMLInputElement>('input[name="recommend"]');
+    const recommendRadios = document.querySelectorAll<HTMLInputElement>('input[name="recommend"]');
 
+    const makePublic = document.querySelector('input[name="makePublic"]') as HTMLInputElement;
+    const agree = document.querySelector('input[name="agreeTerms"]') as HTMLInputElement;
+
+    //review title
     title.addEventListener("input", () => {
 
         if (title.value.length >= 10 && title.value.length <= 100) {
@@ -87,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-
+    //review details
     details.addEventListener("input", () => {
 
         if (details.value.length >= 30 && details.value.length <= 1000) {
@@ -95,20 +99,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //purchase date
     date.addEventListener("change", () => {
         if(date.value){
             clearError(date.parentElement);
         }
     })
- 
-   recommed.forEach(choice => {
-    choice.addEventListener("change", () => {
-        if(choice.value){
-            clearError(choice.parentElement?.parentElement);
-        }
-        
+
+    //recommendation
+    recommendRadios.forEach(radio => {
+
+        radio.addEventListener("change", () => {
+            const err = document.getElementById("error-recommend");
+            if (err) err.innerText = "";
+
+            const group = err?.parentElement;
+            if (group) group.classList.remove("error");
+        });
     })
-   })
+
+    //make public checkbox
+    makePublic.addEventListener("change", () => {
+
+        const err = document.getElementById("error-makePublic");
+        if(err) err.innerText = "";
+
+        const group = err?.parentElement;
+        if(group) group.classList.remove("error");
+    })
+
+
+    //agree terms checkbox
+    agree.addEventListener("change", () => {
+
+        const err = document.getElementById("error-agreeTerms");
+        if(err) err.innerText = "";
+
+        const group = err?.parentElement;
+        if(group) group.classList.remove("error");
+
+    })
+
 
     starContainers.forEach((container: any) => {
         const star = container.querySelectorAll('.star');
