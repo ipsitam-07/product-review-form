@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let submittedReviews : Review[] = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
     const starContainers : any = document.querySelectorAll('.star-rating');
     const tbody = document.querySelector('#reviewsTable tbody');
-
+    let selectedRow: HTMLTableRowElement | null = null;
+    let editing = false;
 
     renderTable()
 
@@ -226,9 +227,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 agreeTerms: (terms as HTMLInputElement)?.checked || false
                 
             };
-            submittedReviews.push(formData);
+            //if editing check
+            if(editing === false){
+                submittedReviews.push(formData);
+                alert("Review has been submitted successfully!");
+
+            }
+
+            else {
+
+                let rowIndex = (selectedRow as HTMLTableRowElement).rowIndex - 1;
+
+                submittedReviews[rowIndex] = formData;
+                if(selectedRow){
+                    selectedRow.cells[0].innerText = formData.title;
+
+                    selectedRow.cells[1].innerText = formData.details;
+
+                    selectedRow.cells[2].innerText = formData.date;
+                    
+   
+                }
+                editing = false;
+                selectedRow = null;
+                alert("Your review has been updated successfully!");
+            }
             localStorage.setItem('reviews', JSON.stringify(submittedReviews));
-            alert("Review has been submitted successfully!");
             renderTable()
             resetData()
         } else {
@@ -362,7 +386,141 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         });
+
+        
     }
+
+
+    //edit & delete via icon tag
+    tbody?.addEventListener("click", function (e) {
+
+        let btn = e.target as HTMLElement;
+    
+        if (btn.tagName === "I") {
+
+            btn = btn.parentElement as HTMLElement;
+        }
+        
+        //editing
+        if (btn.classList.contains("edit-action-btn")) {
+            const td = btn.parentElement;
+            const tr = td?.parentElement;
+    
+            if (!tr) return;
+    
+            selectedRow = tr as HTMLTableRowElement;
+
+            editing = true;
+    
+            const tds = selectedRow.getElementsByTagName("td");
+            
+            //review section editing
+            (document.getElementById("reviewTitle") as HTMLInputElement).value = tds[0].innerText;
+            (document.getElementById("reviewDetails") as HTMLInputElement).value = tds[1].innerText;
+            (document.getElementById("purchaseDate") as HTMLInputElement).value = tds[2].innerText;
+
+
+            //star editing
+            let allStars = document.querySelectorAll<HTMLElement>(".star");
+            if(allStars) {
+                for(let i =0; i<allStars.length; i++){
+                    allStars[i].classList.remove("active");
+            }
+            }
+
+            let ratingStar = selectedRow?.cells[3];
+            let ratingTxt = ratingStar.innerText.split("\n");
+
+            for (let i = 0; i< ratingTxt.length; i++){
+                if(ratingTxt[i].indexOf("Overall") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("overallRating")as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="overallRating"]'),
+                        num
+                    );
+                }
+
+
+                if(ratingTxt[i].indexOf("Quality") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("qualityRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="qualityRating"]'),
+                        num
+                    ) ;     
+                }
+
+
+                if(ratingTxt[i].indexOf("Value") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("valueRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="valueRating"]'),
+                        num
+                    ) ;     
+                }
+
+
+                if(ratingTxt[i].indexOf("Delivery") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("deliveryRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="deliveryRating"]'),
+                        num
+                    ) ;     
+                }
+
+
+                if(ratingTxt[i].indexOf("Service") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("serviceRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="serviceRating"]'),
+                        num
+                    ) ;     
+                }
+
+            }
+            //tag btns editing
+            let tagBtns = document.getElementsByClassName("tag-btn");
+
+            for(let i=0;i<tagBtns.length;i++){
+                tagBtns[i].classList.remove("selected");
+            }
+
+            let tag = selectedRow?.cells[5];
+
+            let tagText = tag.innerText.split("\n");
+
+            let selectedTags : string[] = [];
+
+            for(let i=0;i<tagBtns.length;i++){
+                for(let j=0;j<tagText.length;j++){
+                    if((tagBtns[i] as HTMLInputElement).innerText === tagText[j]){
+                        tagBtns[i].classList.add("selected");
+                        selectedTags.push(tagText[j]);
+                    }
+                }
+            }
+
+            (document.getElementById("selectedTags") as HTMLInputElement).value = JSON.stringify(selectedTags);
+
+
+            //recommend products
+            let recommend = document.getElementsByName("recommend");
+
+            for(let i=0;i<recommend.length; i++){
+                if((recommend[i] as HTMLInputElement).value === tds[6].innerText){
+                    (recommend[i] as HTMLInputElement).checked = true;
+                }
+            }            
+    
+            (document.querySelector(".submit-btn") as HTMLButtonElement).innerText = "Save Review";
+            document.querySelector(".container")?.scrollIntoView();
+        }
+    });
+ 
 
 
 
