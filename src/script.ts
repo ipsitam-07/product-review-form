@@ -1,35 +1,22 @@
+import { type Ratings } from "./types/rating";
+import { type Review } from "./types/review";
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
     let submittedReviews : Review[] = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
     const starContainers : any = document.querySelectorAll('.star-rating');
     const tbody = document.querySelector('#reviewsTable tbody');
-
+    let selectedRow: HTMLTableRowElement | null = null;
+    let editing = false;
 
     renderTable()
 
-    //types
-    type Ratings = {
-    overall: string;
-    quality: string;
-    value: string;
-    delivery: string;
-    service: string;
-    };
+    //date validation
+    const dateInput = document.getElementById("purchaseDate") as HTMLInputElement;
 
+    const today = new Date().toISOString().split("T")[0];
 
-    type Review = {
-    id: number;
-    date: string;
-    title: string;
-    details: string;
-    ratings: Ratings;
-    reviewType: string;
-    tags: string[];
-    recommend: string;
-    buyAgain: boolean;
-    makePublic: boolean;
-    agreeTerms: boolean;
-    };
+    dateInput.max = today;
 
     //Helper functions
     //Function to highlight stars
@@ -61,7 +48,75 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.parentElement?.classList.add('error');
         }
     }
-    //star rating logic
+
+
+    //validation handling
+    const title = document.getElementById("reviewTitle") as HTMLInputElement;
+    const details = document.getElementById("reviewDetails") as HTMLInputElement;
+    const date = document.getElementById('purchaseDate') as HTMLInputElement;
+
+    const recommendRadios = document.querySelectorAll<HTMLInputElement>('input[name="recommend"]');
+
+    const makePublic = document.querySelector('input[name="makePublic"]') as HTMLInputElement;
+    const agree = document.querySelector('input[name="agreeTerms"]') as HTMLInputElement;
+
+    //review title
+    title.addEventListener("input", () => {
+
+        if (title.value.length >= 10 && title.value.length <= 100) {
+            clearError(title.parentElement);
+        }
+    });
+    
+    //review details
+    details.addEventListener("input", () => {
+
+        if (details.value.length >= 30 && details.value.length <= 1000) {
+            clearError(details.parentElement);
+        }
+    });
+
+    //purchase date
+    date.addEventListener("change", () => {
+        if(date.value){
+            clearError(date.parentElement);
+        }
+    })
+
+    //recommendation
+    recommendRadios.forEach(radio => {
+
+        radio.addEventListener("change", () => {
+            const err = document.getElementById("error-recommend");
+            if (err) err.innerText = "";
+
+            const group = err?.parentElement;
+            if (group) group.classList.remove("error");
+        });
+    })
+
+    //make public checkbox
+    makePublic.addEventListener("change", () => {
+
+        const err = document.getElementById("error-makePublic");
+        if(err) err.innerText = "";
+
+        const group = err?.parentElement;
+        if(group) group.classList.remove("error");
+    })
+
+
+    //agree terms checkbox
+    agree.addEventListener("change", () => {
+
+        const err = document.getElementById("error-agreeTerms");
+        if(err) err.innerText = "";
+
+        const group = err?.parentElement;
+        if(group) group.classList.remove("error");
+
+    })
+
 
     starContainers.forEach((container: any) => {
         const star = container.querySelectorAll('.star');
@@ -147,6 +202,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!(datePurchase as HTMLInputElement).value) {
             showError('purchaseDate', "Purchase Date is required.");
             isValid = false;
+        } else {
+            let dateSelect = new Date((datePurchase as HTMLInputElement).value);
+            let today = new Date();
+            today.setHours(0,0,0,0);
+
+            if(dateSelect > today){
+                showError('purchaseDate', 'A future date cannot be selected');
+                isValid = false;
+            }
+
         }
 
         //star rating validation
@@ -207,9 +272,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 agreeTerms: (terms as HTMLInputElement)?.checked || false
                 
             };
-            submittedReviews.push(formData);
+            //if editing check
+            if(editing === false){
+                submittedReviews.push(formData);
+                alert("Review has been submitted successfully!");
+
+            }
+
+            else {
+
+                let rowIndex = (selectedRow as HTMLTableRowElement).rowIndex - 1;
+
+                submittedReviews[rowIndex] = formData;
+                if(selectedRow){
+                    selectedRow.cells[0].innerText = formData.title;
+
+                    selectedRow.cells[1].innerText = formData.details;
+
+                    selectedRow.cells[2].innerText = formData.date;
+
+                }
+                editing = false;
+                selectedRow = null;
+                alert("Your review has been updated successfully!");
+            }
             localStorage.setItem('reviews', JSON.stringify(submittedReviews));
-            alert("Review has been submitted successfully!");
             renderTable()
             resetData()
         } else {
@@ -343,7 +430,176 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         });
+
+        
     }
+
+
+    //edit & delete via icon tag
+    tbody?.addEventListener("click", function (e) {
+
+        let btn = e.target as HTMLElement;
+    
+        if (btn.tagName === "I") {
+
+            btn = btn.parentElement as HTMLElement;
+        }
+        
+        //editing
+        if (btn.classList.contains("edit-action-btn")) {
+            const td = btn.parentElement;
+            const tr = td?.parentElement;
+    
+            if (!tr) return;
+    
+            selectedRow = tr as HTMLTableRowElement;
+
+            editing = true;
+    
+            const tds = selectedRow.getElementsByTagName("td");
+            
+            //review section editing
+            (document.getElementById("reviewTitle") as HTMLInputElement).value = tds[0].innerText;
+            (document.getElementById("reviewDetails") as HTMLInputElement).value = tds[1].innerText;
+            (document.getElementById("purchaseDate") as HTMLInputElement).value = tds[2].innerText;
+
+
+            //star editing
+            let allStars = document.querySelectorAll<HTMLElement>(".star");
+            if(allStars) {
+                for(let i =0; i<allStars.length; i++){
+                    allStars[i].classList.remove("active");
+            }
+            }
+
+            let ratingStar = selectedRow?.cells[3];
+            let ratingTxt = ratingStar.innerText.split("\n");
+
+            for (let i = 0; i< ratingTxt.length; i++){
+                if(ratingTxt[i].indexOf("Overall") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("overallRating")as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="overallRating"]'),
+                        num
+                    );
+                }
+
+
+                if(ratingTxt[i].indexOf("Quality") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("qualityRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="qualityRating"]'),
+                        num
+                    ) ;     
+                }
+
+
+                if(ratingTxt[i].indexOf("Value") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("valueRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="valueRating"]'),
+                        num
+                    ) ;     
+                }
+
+
+                if(ratingTxt[i].indexOf("Delivery") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("deliveryRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="deliveryRating"]'),
+                        num
+                    ) ;     
+                }
+
+
+                if(ratingTxt[i].indexOf("Service") !== -1){
+                    let num = ratingTxt[i].split(":")[1].trim().charAt(0);
+                    (document.getElementById("serviceRating") as HTMLInputElement).value = num;
+                    highlightStars(
+                        document.querySelector('[data-name="serviceRating"]'),
+                        num
+                    ) ;     
+                }
+
+            }
+            //tag btns editing
+            let tagBtns = document.getElementsByClassName("tag-btn");
+
+            for(let i=0;i<tagBtns.length;i++){
+                tagBtns[i].classList.remove("selected");
+            }
+
+            let tag = selectedRow?.cells[5];
+
+            let tagText = tag.innerText.split("\n");
+
+            let selectedTags : string[] = [];
+
+            for(let i=0;i<tagBtns.length;i++){
+                for(let j=0;j<tagText.length;j++){
+                    if((tagBtns[i] as HTMLInputElement).innerText === tagText[j]){
+                        tagBtns[i].classList.add("selected");
+                        selectedTags.push(tagText[j]);
+                    }
+                }
+            }
+
+            (document.getElementById("selectedTags") as HTMLInputElement).value = JSON.stringify(selectedTags);
+
+
+            //recommend products
+            let recommend = document.getElementsByName("recommend");
+
+            for(let i=0;i<recommend.length; i++){
+                if((recommend[i] as HTMLInputElement).value === tds[6].innerText){
+                    (recommend[i] as HTMLInputElement).checked = true;
+                }
+            }            
+    
+            (document.querySelector(".submit-btn") as HTMLButtonElement).innerText = "Save Review";
+            document.querySelector(".container")?.scrollIntoView();
+        }
+
+
+        //delete fiunctionality
+        if(btn.className==="delete-action-btn"){
+
+            let deleteRow = btn.parentElement?.parentElement;
+
+            let index = (deleteRow as HTMLTableRowElement).rowIndex;
+
+            let confirm = window.confirm("Are you sure you want to delete the record?");
+
+            if(confirm){
+                submittedReviews?.splice(index, 1);
+
+                localStorage.setItem("reviews", JSON.stringify(submittedReviews));
+
+                deleteRow?.remove();
+                alert("Review Deleted!");
+            } else {
+                alert("You cancelled the delete operation.")
+            }
+
+            //deleting while editing handle
+
+            if(selectedRow === deleteRow){
+                resetData();
+                editing = false;
+
+                (document.querySelector(".submit-btn") as HTMLInputElement).innerText = "Submit Review";
+
+                selectedRow = null;
+            }
+
+            
+        }
+    });
+ 
 
 
 
