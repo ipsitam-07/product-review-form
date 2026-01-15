@@ -1,3 +1,6 @@
+import { type Ratings } from "./types/rating";
+import { type Review } from "./types/review";
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reviewForm');
     let submittedReviews : Review[] = JSON.parse((localStorage.getItem('reviews')) || '""') || [];
@@ -14,32 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date().toISOString().split("T")[0];
 
     dateInput.max = today;
-
-
-
-    //types
-    type Ratings = {
-    overall: string;
-    quality: string;
-    value: string;
-    delivery: string;
-    service: string;
-    };
-
-
-    type Review = {
-    id: number;
-    date: string;
-    title: string;
-    details: string;
-    ratings: Ratings;
-    reviewType: string;
-    tags: string[];
-    recommend: string;
-    buyAgain: boolean;
-    makePublic: boolean;
-    agreeTerms: boolean;
-    };
 
     //Helper functions
     //Function to highlight stars
