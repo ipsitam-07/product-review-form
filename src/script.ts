@@ -71,7 +71,44 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.parentElement?.classList.add('error');
         }
     }
-    //star rating logic
+
+
+    //validation handling
+    const title = document.getElementById("reviewTitle") as HTMLInputElement;
+    const details = document.getElementById("reviewDetails") as HTMLInputElement;
+    const date = document.getElementById('purchaseDate') as HTMLInputElement;
+
+    const recommed = document.querySelectorAll<HTMLInputElement>('input[name="recommend"]');
+
+    title.addEventListener("input", () => {
+
+        if (title.value.length >= 10 && title.value.length <= 100) {
+            clearError(title.parentElement);
+        }
+    });
+    
+
+    details.addEventListener("input", () => {
+
+        if (details.value.length >= 30 && details.value.length <= 1000) {
+            clearError(details.parentElement);
+        }
+    });
+
+    date.addEventListener("change", () => {
+        if(date.value){
+            clearError(date.parentElement);
+        }
+    })
+ 
+   recommed.forEach(choice => {
+    choice.addEventListener("change", () => {
+        if(choice.value){
+            clearError(choice.parentElement?.parentElement);
+        }
+        
+    })
+   })
 
     starContainers.forEach((container: any) => {
         const star = container.querySelectorAll('.star');
@@ -245,8 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     selectedRow.cells[1].innerText = formData.details;
 
                     selectedRow.cells[2].innerText = formData.date;
-                    
-   
+
                 }
                 editing = false;
                 selectedRow = null;
