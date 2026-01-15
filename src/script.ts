@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderTable()
 
+    //date validation
+    const dateInput = document.getElementById("purchaseDate") as HTMLInputElement;
+
+    const today = new Date().toISOString().split("T")[0];
+
+    dateInput.max = today;
+
+
+
     //types
     type Ratings = {
     overall: string;
@@ -147,6 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!(datePurchase as HTMLInputElement).value) {
             showError('purchaseDate', "Purchase Date is required.");
             isValid = false;
+        } else {
+            let dateSelect = new Date((datePurchase as HTMLInputElement).value);
+            let today = new Date();
+            today.setHours(0,0,0,0);
+
+            if(dateSelect > today){
+                showError('purchaseDate', 'A future date cannot be selected');
+                isValid = false;
+            }
+
         }
 
         //star rating validation
