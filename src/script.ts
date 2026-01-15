@@ -519,6 +519,41 @@ document.addEventListener('DOMContentLoaded', () => {
             (document.querySelector(".submit-btn") as HTMLButtonElement).innerText = "Save Review";
             document.querySelector(".container")?.scrollIntoView();
         }
+
+
+        //delete fiunctionality
+        if(btn.className==="delete-action-btn"){
+
+            let deleteRow = btn.parentElement?.parentElement;
+
+            let index = (deleteRow as HTMLTableRowElement).rowIndex;
+
+            let confirm = window.confirm("Are you sure you want to delete the record?");
+
+            if(confirm){
+                submittedReviews?.splice(index, 1);
+
+                localStorage.setItem("reviews", JSON.stringify(submittedReviews));
+
+                deleteRow?.remove();
+                alert("Review Deleted!");
+            } else {
+                alert("You cancelled the delete operation.")
+            }
+
+            //deleting while editing handle
+
+            if(selectedRow === deleteRow){
+                resetData();
+                editing = false;
+
+                (document.querySelector(".submit-btn") as HTMLInputElement).innerText = "Submit Review";
+
+                selectedRow = null;
+            }
+
+            
+        }
     });
  
 
