@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "echo"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
