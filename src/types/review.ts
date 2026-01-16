@@ -19,3 +19,20 @@ export type Review = {
   makePublic: boolean;
   agreeTerms: boolean;
 };
+
+export type ReviewFormState = {
+  date: string;
+  title: string;
+  details: string;
+  rating: Ratings;
+  reviewType: 'Verified Purchase' | 'General Review';
+  tags?: string[];
+  recommend: string;
+  buyAgain?: boolean;
+  makePublic: boolean;
+  agreeTerms: boolean;
+};
+
+export type AppState = {
+  reviewState?: ReviewFormState;
+};

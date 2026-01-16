@@ -1,7 +1,3 @@
-export interface AppState {
-  count: number;
-}
+import { type AppState } from '../types/review';
 
-export const state: AppState = {
-  count: 0,
-};
+export const appState: AppState = {};

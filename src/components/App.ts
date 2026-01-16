@@ -1,4 +1,5 @@
-import { ReviewForm } from './ReviewForm';
+import { ProductDeatils } from "./ProductDetails";
+import { StarRating } from "./StarRating";
 
 export function renderApp(): void {
   const root = document.getElementById('app');
@@ -8,12 +9,12 @@ export function renderApp(): void {
   }
 
   root.innerHTML = '';
+  const form: HTMLDivElement = document.createElement('div');
+  form.className = 'app';
 
-  const layout: HTMLDivElement = document.createElement('div');
+  form.appendChild(ProductDeatils());
+  form.appendChild(StarRating());
 
-  layout.className = 'app';
+  root.appendChild(form);
 
-  layout.appendChild(ReviewForm());
-
-  root.appendChild(layout);
 }
