@@ -83,22 +83,65 @@ export function Form(state: AppState): HTMLFormElement {
   dateInput.className = 'input';
   dateInput.value = formState.data.date;
 
-  dateInput.addEventListener('change', (e: Event) =>{
-    const target= e.target as HTMLInputElement;
+  dateInput.addEventListener('change', (e: Event) => {
+    const target = e.target as HTMLInputElement;
 
     state.reviewForm.data.date = target.value;
     renderApp();
-  })
+  });
 
   dateGroup.appendChild(dateLabel);
   dateGroup.appendChild(dateInput);
 
+  purchaseSection.appendChild(sectionTitle);
   purchaseSection.appendChild(row);
   purchaseSection.appendChild(dateGroup);
+
+  //Ratings section
+
+  const ratingsSection = document.createElement('section');
+  ratingsSection.className = 'form-group';
+
+  const ratingsTitle = document.createElement('h3');
+  ratingsTitle.textContent = 'Rate this Product';
+
+  ratingsSection.appendChild(ratingsTitle);
+
+  function createRatingRow(labelText: string): HTMLDivElement {
+    const row = document.createElement('div');
+
+    row.className = 'rating-row';
+
+    const label = document.createElement('label');
+
+    label.textContent = labelText;
+
+    const starsContainer = document.createElement('div');
+
+    starsContainer.className = 'star-rating';
+
+    for (let i = 0; i < 5; i += 1) {
+      const star = document.createElement('span');
+      star.className = 'star';
+      star.textContent = '★';
+      starsContainer.appendChild(star);
+    }
+
+    row.appendChild(label);
+    row.appendChild(starsContainer);
+
+    return row;
+  }
+  ratingsSection.appendChild(createRatingRow('Overall Rating'));
+  ratingsSection.appendChild(createRatingRow('Quality Rating'));
+  ratingsSection.appendChild(createRatingRow('Value for Money'));
+  ratingsSection.appendChild(createRatingRow('Delivery Experience'));
+  ratingsSection.appendChild(createRatingRow('Customer Service'));
 
   //final
   form.appendChild(header);
   form.appendChild(purchaseSection);
+  form.appendChild(ratingsSection);
 
   return form;
 }

@@ -88,6 +88,7 @@ label {
   font-weight: bold;
   font-size: var(--font-size-base);
 }
+
 .btn {
   cursor: pointer;
   border: none;
@@ -106,7 +107,7 @@ label {
   background-color: var(--color-primary-hover);
 }
 
-.form-section h3 {
+h3 {
   margin-bottom: var(--space-lg);
   font-size: var(--font-size-2xl);
   margin-bottom: var(--space-md);
@@ -162,6 +163,28 @@ body {
 .row > .form-group {
   flex: 1 1 0;
   min-width: 0;
+}
+
+.rating-row {
+  margin-bottom: var(--space-md);
+}
+.star-rating {
+  font-size: var(--font-size-2xl);
+  cursor: pointer;
+  color: var(--color-star-grey);
+  display: inline-block;
+  margin-top: var(--space-s);
+}
+
+.star {
+  margin-right: var(--space-s);
+}
+
+.star-rating .star:hover {
+  color: var(--color-star-gold);
+}
+.star-rating .star.active {
+  color: var(--color-star-gold);
 }
 
 .layout {
