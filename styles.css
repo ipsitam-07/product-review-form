@@ -168,6 +168,7 @@ body {
 .rating-row {
   margin-bottom: var(--space-md);
 }
+
 .star-rating {
   font-size: var(--font-size-2xl);
   cursor: pointer;
@@ -180,10 +181,11 @@ body {
   margin-right: var(--space-s);
 }
 
-.star-rating .star:hover {
+.star-rating .star-hover {
   color: var(--color-star-gold);
 }
-.star-rating .star.active {
+
+.star-rating .star-active {
   color: var(--color-star-gold);
 }
 

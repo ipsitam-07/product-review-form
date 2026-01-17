@@ -10,6 +10,8 @@ export const state: AppState = {
         overall: '',
         quality: '',
         value: '',
+        delivery: '',
+        service: '',
       },
       reviewType: 'General Review',
       tags: [],
