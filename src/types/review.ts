@@ -20,7 +20,7 @@ export type Review = {
   agreeTerms: boolean;
 };
 
-export type ReviewFormState = {
+export type ReviewFormData = {
   date: string;
   title: string;
   details: string;
@@ -33,6 +33,16 @@ export type ReviewFormState = {
   agreeTerms: boolean;
 };
 
+export type ReviewFormUI = {
+  editId: string | null;
+  errors: Record<string, string>;
+}
+
+export type ReviewFormState = {
+  data: ReviewFormData;
+  ui: ReviewFormUI;
+}
 export type AppState = {
-  reviewState?: ReviewFormState;
+  reviewForm: ReviewFormData;
+  reviews: Review[];
 };
