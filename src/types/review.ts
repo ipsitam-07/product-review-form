@@ -36,13 +36,13 @@ export type ReviewFormData = {
 export type ReviewFormUI = {
   editId: string | null;
   errors: Record<string, string>;
-}
+};
 
 export type ReviewFormState = {
   data: ReviewFormData;
   ui: ReviewFormUI;
-}
+};
 export type AppState = {
-  reviewForm: ReviewFormData;
+  reviewForm: ReviewFormState;
   reviews: Review[];
 };
