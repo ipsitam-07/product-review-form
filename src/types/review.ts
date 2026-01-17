@@ -6,13 +6,15 @@ export type Ratings = {
   service?: string;
 };
 
+export type ReviewType = 'Verified Purchase' | 'General Review';
+
 export type Review = {
   id: string;
   date: string;
   title: string;
   details: string;
   rating: Ratings;
-  reviewType: 'Verified Purchase' | 'General Review';
+  reviewType: ReviewType;
   tags?: string[];
   recommend: string;
   buyAgain?: boolean;
@@ -25,7 +27,7 @@ export type ReviewFormData = {
   title: string;
   details: string;
   rating: Ratings;
-  reviewType: 'Verified Purchase' | 'General Review';
+  reviewType: ReviewType;
   tags?: string[];
   recommend: string;
   buyAgain?: boolean;

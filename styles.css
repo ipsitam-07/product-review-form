@@ -65,7 +65,6 @@ textarea {
   font-size: var(--space-md);
   box-sizing: border-box;
   margin-top: var(--space-md);
-  margin-bottom: var(--space-md);
 }
 
 .input:focus,
@@ -83,10 +82,24 @@ textarea:focus {
   border-color: var(--color-border);
 }
 
+.helper-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
 label {
   display: block;
   font-weight: bold;
   font-size: var(--font-size-base);
+  margin-top: var(--font-size-lg);
+}
+
+.error-msg {
+  display: none;
+  color: var(--error);
+  font-size: var(--font-size-xs);
+  margin-top: var(--space-xs);
 }
 
 .btn {
@@ -189,10 +202,23 @@ body {
   color: var(--color-star-gold);
 }
 
+.radio-group {
+  display: flex;
+  gap: var(--space-lg);
+}
+
 .layout {
   display: flex;
   gap: var(--space-xl);
   max-width: 1400px;
   margin: 0 auto;
   align-items: flex-start;
+}
+.radio-group .radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  margin-bottom: var(--space-s);
+  font-weight: var(--font-weight-normal);
+  cursor: pointer;
 }

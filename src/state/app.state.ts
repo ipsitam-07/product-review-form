@@ -13,7 +13,7 @@ export const state: AppState = {
         delivery: '',
         service: '',
       },
-      reviewType: 'General Review',
+      reviewType: 'Verified Purchase',
       tags: [],
       recommend: '',
       buyAgain: false,

@@ -1,6 +1,7 @@
 import type { AppState } from '../types/review';
 import { renderApp } from './App';
 import { StarRatings } from './StarRating';
+import { ReviewDetails } from './ReviewDetails';
 
 export function Form(state: AppState): HTMLFormElement {
   const formState = state.reviewForm;
@@ -81,6 +82,8 @@ export function Form(state: AppState): HTMLFormElement {
 
   const dateInput = document.createElement('input');
   dateInput.type = 'date';
+  dateInput.name = 'purchaseDate';
+  dateInput.max = '';
   dateInput.className = 'input';
   dateInput.value = formState.data.date;
 
@@ -98,12 +101,11 @@ export function Form(state: AppState): HTMLFormElement {
   purchaseSection.appendChild(row);
   purchaseSection.appendChild(dateGroup);
 
-  //Ratings section
-
   //final
   form.appendChild(header);
   form.appendChild(purchaseSection);
   form.appendChild(StarRatings(state));
+  form.appendChild(ReviewDetails(state));
 
   return form;
 }
