@@ -2,6 +2,7 @@ import type { AppState } from '../types/review';
 import { renderApp } from './App';
 import { StarRatings } from './StarRating';
 import { ReviewDetails } from './ReviewDetails';
+import { TagsAndRecommendSection } from './TagsAndRecommend';
 
 export function Form(state: AppState): HTMLFormElement {
   const formState = state.reviewForm;
@@ -106,6 +107,7 @@ export function Form(state: AppState): HTMLFormElement {
   form.appendChild(purchaseSection);
   form.appendChild(StarRatings(state));
   form.appendChild(ReviewDetails(state));
+  form.append(TagsAndRecommendSection(state));
 
   return form;
 }

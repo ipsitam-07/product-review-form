@@ -15,7 +15,7 @@ export type Review = {
   details: string;
   rating: Ratings;
   reviewType: ReviewType;
-  tags?: string[];
+  tags: string[];
   recommend: string;
   buyAgain?: boolean;
   makePublic: boolean;
@@ -28,7 +28,7 @@ export type ReviewFormData = {
   details: string;
   rating: Ratings;
   reviewType: ReviewType;
-  tags?: string[];
+  tags: string[];
   recommend: string;
   buyAgain?: boolean;
   makePublic: boolean;
