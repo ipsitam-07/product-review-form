@@ -60,7 +60,8 @@ export function TagsAndRecommendSection(state: AppState): HTMLElement {
   recommend.className = 'form-group';
 
   const recommendLabel = document.createElement('label');
-  recommendLabel.innerHTML = 'Would you recommend this product?';
+  recommendLabel.innerHTML =
+    'Would you recommend this product? <span class="required-star">*</span>';
   recommend.appendChild(recommendLabel);
 
   const radioStack = document.createElement('div');

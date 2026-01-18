@@ -129,7 +129,7 @@ label small {
 h3 {
   margin-bottom: var(--space-lg);
   font-size: var(--font-size-2xl);
-  margin-bottom: var(--space-md);
+  margin-top: var(--space-md);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-heading);
 }
@@ -262,4 +262,14 @@ body {
   background: var(--color-primary);
   color: var(--color-table-head-bg);
   border-color: var(--color-primary);
+}
+
+.checkbox-group label {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
+}
+
+.required-star {
+  color: var(--color-error);
+  font-weight: var(--font-weight-normal);
 }

@@ -17,7 +17,7 @@ export function ReviewDetails(state: AppState): HTMLElement {
   title.className = 'form-group';
 
   const titleLabel = document.createElement('label');
-  titleLabel.textContent = 'Review Title';
+  titleLabel.innerHTML = 'Review Title  <span class="required-star">*</span>';
 
   title.appendChild(titleLabel);
 
@@ -54,9 +54,7 @@ export function ReviewDetails(state: AppState): HTMLElement {
   details.className = 'form-group';
 
   const detailsLabel = document.createElement('label');
-  detailsLabel.textContent = 'Detailed Review';
-
-  details.appendChild(detailsLabel);
+  detailsLabel.innerHTML = 'Detailed Review  <span class="required-star">*</span>';
 
   const detailsTextarea = document.createElement('textarea');
   detailsTextarea.className = 'textarea';

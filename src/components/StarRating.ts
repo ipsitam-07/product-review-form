@@ -10,11 +10,11 @@ export function StarRatings(state: AppState): HTMLElement {
   title.textContent = 'Rate this Product';
   section.appendChild(title);
 
-  section.appendChild(createRatingRow('Overall Rating', 'overall', state));
-  section.appendChild(createRatingRow('Quality Rating', 'quality', state));
-  section.appendChild(createRatingRow('Value for Money', 'value', state));
-  section.appendChild(createRatingRow('Delivery Experience', 'delivery', state));
-  section.appendChild(createRatingRow('Customer Service', 'service', state));
+  section.appendChild(createRatingRow('Overall Rating', 'overall', state, true));
+  section.appendChild(createRatingRow('Quality Rating', 'quality', state, true));
+  section.appendChild(createRatingRow('Value for Money', 'value', state, true));
+  section.appendChild(createRatingRow('Delivery Experience', 'delivery', state, false));
+  section.appendChild(createRatingRow('Customer Service', 'service', state, false));
 
   return section;
 }
@@ -23,12 +23,21 @@ function createRatingRow(
   labelText: string,
   ratingKey: keyof Ratings,
   state: AppState,
+  isRequired: boolean,
 ): HTMLDivElement {
   const row = document.createElement('div');
   row.className = 'rating-row';
 
   const label = document.createElement('label');
-  label.textContent = labelText;
+  label.textContent = labelText + '';
+
+  if (isRequired) {
+    const requiredStar = document.createElement('span');
+    requiredStar.className = 'required-star';
+    requiredStar.textContent = ' *';
+
+    label.appendChild(requiredStar);
+  }
   row.appendChild(label);
 
   const starsContainer = document.createElement('div');

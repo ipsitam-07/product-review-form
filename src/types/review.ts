@@ -30,7 +30,7 @@ export type ReviewFormData = {
   reviewType: ReviewType;
   tags: string[];
   recommend: string;
-  buyAgain?: boolean;
+  buyAgain: boolean;
   makePublic: boolean;
   agreeTerms: boolean;
 };

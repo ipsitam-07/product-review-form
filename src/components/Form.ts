@@ -3,6 +3,7 @@ import { renderApp } from './App';
 import { StarRatings } from './StarRating';
 import { ReviewDetails } from './ReviewDetails';
 import { TagsAndRecommendSection } from './TagsAndRecommend';
+import { AdditionalInfoSection } from './AdditonalInfoSection';
 
 export function Form(state: AppState): HTMLFormElement {
   const formState = state.reviewForm;
@@ -79,7 +80,7 @@ export function Form(state: AppState): HTMLFormElement {
   dateGroup.className = 'form-group';
 
   const dateLabel = document.createElement('label');
-  dateLabel.textContent = 'Purchase Date';
+  dateLabel.innerHTML = 'Purchase Date  <span class="required-star">*</span>';
 
   const dateInput = document.createElement('input');
   dateInput.type = 'date';
@@ -108,6 +109,7 @@ export function Form(state: AppState): HTMLFormElement {
   form.appendChild(StarRatings(state));
   form.appendChild(ReviewDetails(state));
   form.append(TagsAndRecommendSection(state));
+  form.appendChild(AdditionalInfoSection(state));
 
   return form;
 }
