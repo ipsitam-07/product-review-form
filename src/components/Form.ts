@@ -150,7 +150,7 @@ export function Form(state: AppState): HTMLFormElement {
       alert('Review Submitted!');
     }
 
-    saveToLocalStorage(state.reviews);
+    saveToLocalStorage();
     state.reviewForm = structuredClone(initialReviewFormState);
     renderApp();
   });

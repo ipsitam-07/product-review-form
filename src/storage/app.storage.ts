@@ -17,21 +17,28 @@ function normalizeReview(review: Review): Review {
   };
 }
 
-export function saveToLocalStorage(reviews: Review[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
-}
-
-export function loadFromStorage(): void {
+export function getReviewsFromStorage(): Review[] {
   const stored = localStorage.getItem(STORAGE_KEY);
 
   if (!stored) {
-    return;
+    return [];
   }
 
   try {
-    const parsed = JSON.parse(stored) as Review[];
-    state.reviews = parsed.map(normalizeReview);
+    return (JSON.parse(stored) as Review[]).map(normalizeReview);
   } catch {
-    state.reviews = [];
+    return [];
   }
+}
+
+export function setReviewsToStorage(reviews: Review[]): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+}
+
+export function saveToLocalStorage(): void {
+  setReviewsToStorage(state.reviews);
+}
+
+export function loadFromStorage(): void {
+  state.reviews = getReviewsFromStorage();
 }

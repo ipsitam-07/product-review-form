@@ -55,7 +55,7 @@ export function actionsCell(reviewId: string): HTMLTableCellElement {
 
   deleteBtn.addEventListener('click', () => {
     state.reviews = state.reviews.filter((r) => r.id !== reviewId);
-    saveToLocalStorage(state.reviews);
+    saveToLocalStorage();
 
     alert('Review Deleted!');
     renderApp();
