@@ -53,6 +53,11 @@ export function AdditionalInfoSection(state: AppState): HTMLElement {
 
   const makePublicError = document.createElement('span');
   makePublicError.className = 'error-msg';
+
+  const makePublicErrMsg = state.reviewForm.ui.errors.makePublic;
+  if (makePublicErrMsg) {
+    makePublicError.textContent = makePublicErrMsg;
+  }
   makePublic.appendChild(makePublicError);
 
   section.appendChild(makePublic);
@@ -82,6 +87,11 @@ export function AdditionalInfoSection(state: AppState): HTMLElement {
 
   const agreeError = document.createElement('span');
   agreeError.className = 'error-msg';
+
+  const agreeErrMsg = state.reviewForm.ui.errors.agreeTerms;
+  if (agreeErrMsg) {
+    agreeError.textContent = agreeErrMsg;
+  }
   agree.appendChild(agreeError);
 
   section.appendChild(agree);

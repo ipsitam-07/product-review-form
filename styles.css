@@ -108,6 +108,10 @@ label small {
   margin-top: var(--space-xs);
 }
 
+.form .error-msg {
+  display: block;
+}
+
 .btn {
   cursor: pointer;
   border: none;
@@ -127,7 +131,6 @@ label small {
 }
 
 h3 {
-  margin-bottom: var(--space-lg);
   font-size: var(--font-size-2xl);
   margin-top: var(--space-md);
   font-weight: var(--font-weight-bold);
@@ -272,4 +275,20 @@ body {
 .required-star {
   color: var(--color-error);
   font-weight: var(--font-weight-normal);
+}
+
+.submit-btn {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: var(--color-card-bg);
+  padding: var(--space-md);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  margin-top: var(--space-lg);
+}
+.submit-btn:hover {
+  background-color: var(--color-primary-hover);
 }

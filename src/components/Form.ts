@@ -4,7 +4,11 @@ import { StarRatings } from './StarRating';
 import { ReviewDetails } from './ReviewDetails';
 import { TagsAndRecommendSection } from './TagsAndRecommend';
 import { AdditionalInfoSection } from './AdditonalInfoSection';
-
+import { FormActions } from './FormAction';
+import { validateReviewForm, createReviewFromForm } from '../app.logic';
+import { scrollToFirstError } from '../utils/dom';
+import { saveToLocalStorage } from '../services/app.storage';
+import { initialReviewFormState } from '../state/app.state';
 export function Form(state: AppState): HTMLFormElement {
   const formState = state.reviewForm;
 
@@ -99,6 +103,16 @@ export function Form(state: AppState): HTMLFormElement {
   dateGroup.appendChild(dateLabel);
   dateGroup.appendChild(dateInput);
 
+  const dateError = document.createElement('span');
+  dateError.className = 'error-msg';
+
+  const dateErrMsg = state.reviewForm.ui.errors.date;
+  if (dateErrMsg) {
+    dateError.textContent = dateErrMsg;
+  }
+
+  dateGroup.appendChild(dateError);
+
   purchaseSection.appendChild(sectionTitle);
   purchaseSection.appendChild(row);
   purchaseSection.appendChild(dateGroup);
@@ -108,8 +122,36 @@ export function Form(state: AppState): HTMLFormElement {
   form.appendChild(purchaseSection);
   form.appendChild(StarRatings(state));
   form.appendChild(ReviewDetails(state));
-  form.append(TagsAndRecommendSection(state));
+  form.appendChild(TagsAndRecommendSection(state));
   form.appendChild(AdditionalInfoSection(state));
+  form.appendChild(FormActions());
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const errors = validateReviewForm(state.reviewForm.data);
+    state.reviewForm.ui.errors = errors;
+
+    if (Object.keys(errors).length > 0) {
+      renderApp();
+
+      requestAnimationFrame(() => {
+        scrollToFirstError();
+      });
+      return;
+    }
+
+    const review = createReviewFromForm(state.reviewForm.data);
+
+    state.reviews = [...state.reviews, review];
+
+    saveToLocalStorage(state.reviews);
+    alert('Review Submitted!');
+
+    state.reviewForm = structuredClone(initialReviewFormState);
+
+    renderApp();
+  });
 
   return form;
 }

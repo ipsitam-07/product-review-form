@@ -45,6 +45,11 @@ export function ReviewDetails(state: AppState): HTMLElement {
   const titleError = document.createElement('span');
   titleError.className = 'error-msg';
 
+  const titleErrMsg = state.reviewForm.ui.errors.title;
+  if (titleErrMsg) {
+    titleError.textContent = titleErrMsg;
+  }
+
   title.appendChild(titleError);
 
   section.appendChild(title);
@@ -78,6 +83,11 @@ export function ReviewDetails(state: AppState): HTMLElement {
 
   const detailsError = document.createElement('span');
   detailsError.className = 'error-msg';
+
+  const detailsErrMsg = state.reviewForm.ui.errors.details;
+  if (detailsErrMsg) {
+    detailsError.textContent = detailsErrMsg;
+  }
   details.appendChild(detailsError);
 
   section.appendChild(details);

@@ -88,6 +88,14 @@ function createRatingRow(
 
     starsContainer.appendChild(star);
   }
+  const errorMsg = state.reviewForm.ui.errors[ratingKey];
+
+  if (errorMsg) {
+    const errorSpan = document.createElement('span');
+    errorSpan.className = 'error-msg';
+    errorSpan.textContent = errorMsg;
+    row.appendChild(errorSpan);
+  }
 
   row.appendChild(starsContainer);
 

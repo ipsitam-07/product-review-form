@@ -90,6 +90,12 @@ export function TagsAndRecommendSection(state: AppState): HTMLElement {
 
   const recommendError = document.createElement('span');
   recommendError.className = 'error-msg';
+
+  const recommendErrMsg = state.reviewForm.ui.errors.recommend;
+  if (recommendErrMsg) {
+    recommendError.textContent = recommendErrMsg;
+  }
+
   recommend.appendChild(recommendError);
 
   section.appendChild(recommend);
