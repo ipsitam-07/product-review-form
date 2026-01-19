@@ -1,18 +1,6 @@
 import { renderApp } from './App';
 import type { AppState } from '../types/review';
-
-const TAG_OPTIONS = [
-  'Best Quality',
-  'Great Value',
-  'Good Packaging',
-  'Fast Delivery',
-  'Highly Recommended',
-  'Poor Quality',
-  'Not Worth Price',
-  'Damaged on Arrival',
-];
-
-const RECOMMEND_OPTIONS = ['Definitely Yes', 'Yes', 'Maybe', 'No', 'Definitely No'];
+import { TAG_OPTIONS, RECOMMEND_OPTIONS } from '../utils/constants';
 
 export function TagsAndRecommendSection(state: AppState): HTMLElement {
   const section = document.createElement('section');

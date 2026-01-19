@@ -1,15 +1,6 @@
 import type { AppState, Review } from '../types/review';
 import { ratingsParser } from '../services/jsonParser';
-const HEADERS = [
-  'Review Title',
-  'Review Details',
-  'Purchase Date',
-  'Rating',
-  'Review Type',
-  'Product Tags',
-  'Recommend',
-  'Make Public',
-];
+import { HEADERS } from '../utils/constants';
 
 export function Table(state: AppState): HTMLElement {
   const section = document.createElement('section');
