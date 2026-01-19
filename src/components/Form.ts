@@ -5,9 +5,10 @@ import { ReviewDetails } from './ReviewDetails';
 import { TagsAndRecommendSection } from './TagsAndRecommend';
 import { AdditionalInfoSection } from './AdditonalInfoSection';
 import { FormActions } from './FormAction';
-import { validateReviewForm, createReviewFromForm } from '../app.logic';
+import { validateReviewForm } from '../services/formValidation';
+import { createReviewFromForm } from '../services/createForm';
 import { scrollToFirstError } from '../utils/dom';
-import { saveToLocalStorage } from '../services/app.storage';
+import { saveToLocalStorage } from '../storage/app.storage';
 import { initialReviewFormState } from '../state/app.state';
 export function Form(state: AppState): HTMLFormElement {
   const formState = state.reviewForm;

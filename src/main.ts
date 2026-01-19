@@ -1,5 +1,5 @@
 import { renderApp } from './components/App';
-import { loadFromStorage } from './services/app.storage';
+import { loadFromStorage } from './storage/app.storage';
 
 document.addEventListener('DOMContentLoaded', (): void => {
   loadFromStorage();

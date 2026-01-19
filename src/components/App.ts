@@ -1,4 +1,5 @@
 import { Form } from './Form';
+import { Table } from './Table';
 import { state } from '../state/app.state';
 
 export function renderApp(): void {
@@ -16,8 +17,13 @@ export function renderApp(): void {
   const formContainer = document.createElement('div');
   formContainer.className = 'container';
 
+  const tableContainer = document.createElement('div');
+  tableContainer.className = 'table-container';
+
   formContainer.appendChild(Form(state));
+  tableContainer.appendChild(Table(state));
   layout.appendChild(formContainer);
+  layout.appendChild(tableContainer);
 
   root.appendChild(layout);
 }
