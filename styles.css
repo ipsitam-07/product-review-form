@@ -55,6 +55,26 @@
   --shadow-sm: 0 1px 2px var(--color-box-shadow);
   --shadow-md: 0 4px 6px var(--color-box-shadow);
 }
+
+.theme-dark {
+  --color-primary: #818cf8;
+  --color-primary-hover: #6366f1;
+  --color-bg: #0f172a;
+  --color-card-bg: #1e293b;
+  --color-bg-muted: #020617;
+  --color-text-main: #e5e7eb;
+  --color-text-heading: #c7d2fe;
+  --color-text-muted: #9ca3af;
+  --color-tag-pill-bg: #312e81;
+  --color-table-head-bg: #1e293b;
+  --color-border: #334155;
+  --color-error: #f87171;
+  --color-error-hover: #ef4444;
+  --color-star-gold: #facc15;
+  --color-star-grey: #475569;
+  --color-box-shadow: #00000080;
+}
+
 /*Form Elements*/
 input[type='text'],
 input[type='date'],
@@ -137,7 +157,9 @@ h3 {
   font-weight: var(--font-weight-bold);
   color: var(--color-text-heading);
 }
-
+a {
+  color: var(--color-primary);
+}
 .error-msg {
   color: var(--color-error);
   font-size: var(--font-size-xs);
@@ -230,6 +252,13 @@ body {
   align-items: flex-start;
 }
 
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 1400px;
+  margin: 0;
+}
+
 .radio-group .radio-label {
   display: flex;
   align-items: center;
@@ -258,6 +287,7 @@ body {
   padding: var(--space-s) var(--space-md);
   border-radius: var(--radius-2xl);
   cursor: pointer;
+  color: var(--color-text-main);
   font-size: var(--font-size-sm);
   margin-top: var(--space-s);
 }
@@ -374,6 +404,11 @@ th {
   color: var(--color-error-hover);
 }
 
+.theme-btn {
+  margin: 0;
+  border-radius: var(--radius-md);
+  padding: var(--space-s);
+}
 /* Responsiveness */
 @media screen and (max-width: 1024px) {
   .app {

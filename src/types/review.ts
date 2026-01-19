@@ -44,7 +44,9 @@ export type ReviewFormState = {
   data: ReviewFormData;
   ui: ReviewFormUI;
 };
+export type Theme = 'light' | 'dark';
 export type AppState = {
   reviewForm: ReviewFormState;
   reviews: Review[];
+  theme: Theme;
 };

@@ -1,4 +1,4 @@
-import type { AppState, ReviewFormState } from '../types/review';
+import type { AppState, ReviewFormState, Theme } from '../types/review';
 
 export const initialReviewFormState: ReviewFormState = {
   data: {
@@ -28,4 +28,5 @@ export const initialReviewFormState: ReviewFormState = {
 export const state: AppState = {
   reviewForm: structuredClone(initialReviewFormState),
   reviews: [],
+  theme: 'light' as Theme,
 };

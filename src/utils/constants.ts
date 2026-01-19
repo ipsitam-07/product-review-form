@@ -22,3 +22,6 @@ export const TAG_OPTIONS = [
 ];
 
 export const RECOMMEND_OPTIONS = ['Definitely Yes', 'Yes', 'Maybe', 'No', 'Definitely No'];
+
+export const STORAGE_KEY = 'reviews';
+export const THEME = 'theme';

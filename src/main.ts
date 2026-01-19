@@ -1,7 +1,8 @@
 import { renderApp } from './components/App';
-import { loadFromStorage } from './storage/app.storage';
+import { loadFromStorage, loadTheme } from './storage/app.storage';
 
 document.addEventListener('DOMContentLoaded', (): void => {
+  loadTheme();
   loadFromStorage();
   renderApp();
 });

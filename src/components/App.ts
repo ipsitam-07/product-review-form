@@ -1,6 +1,7 @@
 import { Form } from './Form';
 import { Table } from './Table';
 import { state } from '../state/app.state';
+import { ThemeToggle } from './ThemeToggle';
 
 export function renderApp(): void {
   const root = document.getElementById('app');
@@ -9,7 +10,14 @@ export function renderApp(): void {
     throw new Error('Root element app not found');
   }
 
+  document.body.classList.remove('theme-light', 'theme-dark');
+  document.body.classList.add(`theme-${state.theme}`);
+
   root.innerHTML = '';
+
+  const topBar = document.createElement('div');
+  topBar.className = 'top-bar';
+  topBar.appendChild(ThemeToggle());
 
   const layout = document.createElement('div');
   layout.className = 'app';
@@ -25,5 +33,6 @@ export function renderApp(): void {
   layout.appendChild(formContainer);
   layout.appendChild(tableContainer);
 
+  root.appendChild(topBar);
   root.appendChild(layout);
 }

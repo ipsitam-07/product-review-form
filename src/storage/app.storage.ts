@@ -1,7 +1,6 @@
-import type { Review } from '../types/review';
+import type { Review, Theme } from '../types/review';
 import { state } from '../state/app.state';
-
-const STORAGE_KEY = 'reviews';
+import { STORAGE_KEY, THEME } from '../utils/constants';
 
 function normalizeReview(review: Review): Review {
   return {
@@ -41,4 +40,31 @@ export function saveToLocalStorage(): void {
 
 export function loadFromStorage(): void {
   state.reviews = getReviewsFromStorage();
+}
+
+//Theme persistence
+export function getTheme(): Theme | null {
+  const stored = localStorage.getItem(THEME);
+
+  if (stored === 'light' || stored === 'dark') {
+    return stored;
+  }
+
+  return null;
+}
+
+export function setTheme(theme: Theme): void {
+  localStorage.setItem(THEME, theme);
+}
+
+export function loadTheme(): void {
+  const storedTheme = getTheme();
+
+  if (storedTheme) {
+    state.theme = storedTheme;
+  }
+}
+
+export function persistTheme(): void {
+  setTheme(state.theme);
 }
