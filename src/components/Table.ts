@@ -1,6 +1,7 @@
 import type { AppState, Review } from '../types/review';
-import { ratingsParser } from '../services/jsonParser';
+import { ratingsParser } from '../services/ratingsParser';
 import { HEADERS } from '../utils/constants';
+import { actionsCell } from './TableActions';
 
 export function Table(state: AppState): HTMLElement {
   const section = document.createElement('section');
@@ -86,6 +87,7 @@ function tableRow(review: Review): HTMLTableRowElement {
   row.appendChild(tagsCell(review.tags));
   row.appendChild(rowCell(review.recommend));
   row.appendChild(rowCell(review.makePublic ? 'Yes' : 'No'));
+  row.appendChild(actionsCell(review.id));
 
   return row;
 }

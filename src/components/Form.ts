@@ -135,22 +135,23 @@ export function Form(state: AppState): HTMLFormElement {
 
     if (Object.keys(errors).length > 0) {
       renderApp();
-
-      requestAnimationFrame(() => {
-        scrollToFirstError();
-      });
+      requestAnimationFrame(scrollToFirstError);
       return;
     }
 
-    const review = createReviewFromForm(state.reviewForm.data);
-
-    state.reviews = [...state.reviews, review];
+    if (state.reviewForm.ui.editId) {
+      state.reviews = state.reviews.map((review) =>
+        review.id === state.reviewForm.ui.editId ? { ...review, ...state.reviewForm.data } : review,
+      );
+      alert('Review Updated!');
+    } else {
+      const newReview = createReviewFromForm(state.reviewForm.data);
+      state.reviews = [...state.reviews, newReview];
+      alert('Review Submitted!');
+    }
 
     saveToLocalStorage(state.reviews);
-    alert('Review Submitted!');
-
     state.reviewForm = structuredClone(initialReviewFormState);
-
     renderApp();
   });
 

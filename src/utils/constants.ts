@@ -7,6 +7,7 @@ export const HEADERS = [
   'Product Tags',
   'Recommend',
   'Make Public',
+  'Actions',
 ];
 
 export const TAG_OPTIONS = [

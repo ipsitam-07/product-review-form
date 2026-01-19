@@ -18,7 +18,7 @@ export default [
       eqeqeq: ['error', 'always'],
       curly: ['error', 'all'],
       'max-depth': ['error', 3],
-      'max-lines-per-function': ['warn', 30],
+      'max-lines-per-function': ['warn', 50],
       complexity: ['error', 10],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['warn'],

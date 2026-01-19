@@ -213,7 +213,7 @@ body {
 
 .rating-line {
   padding: var(--space-xs);
-  width: 100px;
+  margin: var(--space-xs);
 }
 
 .radio-group {
@@ -331,6 +331,7 @@ body {
 
 th,
 td {
+  width: 100px;
   font-size: var(--font-size-sm);
   border: 1px solid var(--color-text-main);
   text-align: left;
@@ -344,8 +345,33 @@ th {
 }
 
 .table-section {
-  height: 1640px;
+  height: 100%;
   overflow: auto;
+}
+
+.edit-icon-btn {
+  font-size: var(--font-size-base);
+  background-color: transparent;
+  color: var(--color-primary);
+  padding: var(--space-xs);
+  border: none;
+  cursor: pointer;
+}
+.edit-icon-btn :hover {
+  color: var(--color-primary-hover);
+}
+
+.dlt-icon-btn {
+  font-size: var(--font-size-base);
+  background-color: transparent;
+  color: var(--color-error);
+  padding: var(--space-xs);
+  border: none;
+  cursor: pointer;
+}
+
+.dlt-icon-btn :hover {
+  color: var(--color-error-hover);
 }
 
 /* Responsiveness */
@@ -371,6 +397,7 @@ th {
 
 @media screen and (max-width: 600px) {
   .container {
+    flex: 1;
     width: 100%;
   }
   body {
@@ -383,6 +410,6 @@ th {
   }
 
   .table-section {
-    max-height: 60vh;
+    max-height: 100%;
   }
 }
