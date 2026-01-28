@@ -1,11 +1,14 @@
 import type { Review } from '../../types/review';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { useContext } from 'react';
+import { AppContext } from '../../context/AppContext';
 
 type Props = {
   review: Review;
 };
 
 function ReviewRow({ review }: Props) {
+  const { dispatch } = useContext(AppContext);
   return (
     <tr>
       <td>{review.title}</td>
@@ -42,10 +45,29 @@ function ReviewRow({ review }: Props) {
 
       <td>
         <div className="action-column">
-          <button className="edit-icon-btn">
+          <button
+            type="button"
+            className="edit-icon-btn"
+            onClick={() => {
+              dispatch({
+                type: 'EDIT_REVIEW',
+                reviewId: review.id,
+              });
+            }}
+          >
             <FaEdit />
           </button>
-          <button className="dlt-icon-btn">
+          <button
+            className="dlt-icon-btn"
+            type="button"
+            onClick={() => {
+              const confirmed = window.confirm('Are you sure you want to delete this review?');
+
+              if (confirmed) {
+                dispatch({ type: 'DELETE_REVIEW', reviewId: review.id });
+              }
+            }}
+          >
             <FaTrash />
           </button>
         </div>

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import AddtitionalInfoSection from './AddtitionalInfoSection';
 import DetailReview from './DetailReview';
 import PurchaseInfo from './PurchaseInfo';
@@ -9,12 +9,20 @@ import { scrollToFirstError } from '../../utils/scrollToError';
 function ReviewForm() {
   const { state, dispatch } = useContext(AppContext);
 
+  const editingRef = useRef(false);
+
   useEffect(() => {
     const errors = state.reviewForm.ui.errors;
+    const editId = state.reviewForm.ui.editId;
 
     if (Object.keys(errors).length > 0) {
       scrollToFirstError();
     }
+
+    if (editingRef.current && editId === null && Object.keys(errors).length === 0) {
+      alert('Review updated successfully');
+    }
+    editingRef.current = editId !== null;
   }, [state.reviewForm.ui.errors]);
 
   return (
@@ -40,7 +48,7 @@ function ReviewForm() {
           <AddtitionalInfoSection />
           <div className="form-actions">
             <button type="submit" className="submit-btn">
-              Submit Review
+              {state.reviewForm.ui.editId ? 'Update Review' : 'Submit Review'}
             </button>
           </div>
         </form>

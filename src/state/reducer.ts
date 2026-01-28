@@ -5,7 +5,6 @@ import type { AppState } from '../types/state';
 import type { Action } from './actions';
 
 export function appReducer(state: AppState, action: Action): AppState {
-  const newReview = createReviewFromForm(state.reviewForm.data);
   switch (action.type) {
     case 'UPDATE_FORM_FIELD': {
       const { field, value } = action;
@@ -68,7 +67,7 @@ export function appReducer(state: AppState, action: Action): AppState {
       };
     }
 
-    case 'SUBMIT_REVIEW':
+    case 'SUBMIT_REVIEW': {
       {
         const errors = validateReviewForm(state.reviewForm.data);
         if (Object.keys(errors).length > 0) {
@@ -85,11 +84,27 @@ export function appReducer(state: AppState, action: Action): AppState {
         }
       }
 
+      if (state.reviewForm.ui.editId) {
+        const updatedReviews = state.reviews.map((review) =>
+          review.id === state.reviewForm.ui.editId
+            ? { ...review, ...state.reviewForm.data }
+            : review,
+        );
+
+        return {
+          ...state,
+          reviews: updatedReviews,
+          reviewForm: initialReviewFormState,
+        };
+      }
+
+      const newReview = createReviewFromForm(state.reviewForm.data);
       return {
         ...state,
         reviews: [...state.reviews, newReview],
         reviewForm: initialReviewFormState,
       };
+    }
 
     case 'STORE_REVIEW': {
       return {
@@ -97,6 +112,47 @@ export function appReducer(state: AppState, action: Action): AppState {
         ...action.payload,
       };
     }
+
+    case 'EDIT_REVIEW': {
+      const reviewToEdit = state.reviews.find((review) => review.id === action.reviewId);
+
+      if (!reviewToEdit) return state;
+
+      return {
+        ...state,
+        reviewForm: {
+          data: {
+            date: reviewToEdit.date,
+            title: reviewToEdit.title,
+            details: reviewToEdit.details,
+            rating: reviewToEdit.rating,
+            reviewType: reviewToEdit.reviewType,
+            tags: reviewToEdit.tags,
+            recommend: reviewToEdit.recommend,
+            buyAgain: reviewToEdit.buyAgain ?? false,
+            makePublic: reviewToEdit.makePublic,
+            agreeTerms: reviewToEdit.agreeTerms,
+          },
+          ui: {
+            editId: reviewToEdit.id,
+            errors: {},
+          },
+        },
+      };
+    }
+
+    case 'DELETE_REVIEW': {
+      const updatedReviews = state.reviews.filter((review) => review.id !== action.reviewId);
+
+      const isDeletingEditedReview = state.reviewForm.ui.editId === action.reviewId;
+
+      return {
+        ...state,
+        reviews: updatedReviews,
+        reviewForm: isDeletingEditedReview ? initialReviewFormState : state.reviewForm,
+      };
+    }
+
     default:
       return state;
   }
