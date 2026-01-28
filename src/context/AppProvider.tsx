@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useRef } from 'react';
 import type { ReactNode, Dispatch } from 'react';
 
 import type { AppState } from '../types/state';
@@ -23,13 +23,18 @@ type AppProviderProps = {
 export function AppProvider({ children }: AppProviderProps) {
   const [state, dispatch] = useReducer(appReducer, initialAppState);
 
+  const hasHydration = useRef(false);
+
   useEffect(() => {
+    if (hasHydration.current) return;
     dispatch({
       type: 'STORE_REVIEW',
       payload: {
         reviews: getterStorage(),
       },
     });
+
+    hasHydration.current = true;
   }, []);
 
   useEffect(() => {
