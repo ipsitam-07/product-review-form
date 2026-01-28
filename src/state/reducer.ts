@@ -5,15 +5,22 @@ import type { AppState } from '../types/state';
 import type { Action } from './actions';
 
 export function appReducer(state: AppState, action: Action): AppState {
+  const newReview = createReviewFromForm(state.reviewForm.data);
   switch (action.type) {
     case 'UPDATE_FORM_FIELD':
+      const { field, value } = action;
+      const { [field]: _, ...remainingErrors } = state.reviewForm.ui.errors;
       return {
         ...state,
         reviewForm: {
           ...state.reviewForm,
           data: {
             ...state.reviewForm.data,
-            [action.field]: action.value,
+            [field]: value,
+          },
+          ui: {
+            ...state.reviewForm.ui,
+            errors: remainingErrors,
           },
         },
       };
@@ -68,8 +75,6 @@ export function appReducer(state: AppState, action: Action): AppState {
           };
         }
       }
-
-      const newReview = createReviewFromForm(state.reviewForm.data);
 
       return {
         ...state,
