@@ -12,6 +12,7 @@ function StarRatings() {
   return (
     <>
       <section className="form-section">
+        <h3>Your Rating</h3>
         {RATING_CONFIG.map(({ key, label, required }) => {
           const selectedValue = Number(rating[key as keyof Ratings] || 0);
 
