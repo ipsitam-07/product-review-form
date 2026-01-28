@@ -1,4 +1,16 @@
+import { useContext } from 'react';
+import { AppContext } from '../../context/AppProvider';
+import { TAG_OPTIONS, RECOMMEND_OPTIONS } from '../../constants/constants';
+import type { ReviewType } from '../../types/review';
+
 function DetailReview() {
+  const { state, dispatch } = useContext(AppContext);
+  const { title, details, reviewType, tags, recommend } = state.reviewForm.data;
+
+  const { errors } = state.reviewForm.ui;
+
+  const reviewTypes: ReviewType[] = ['Verified Purchase', 'General Review'];
+
   return (
     <>
       <section className="form-section">
@@ -14,10 +26,18 @@ function DetailReview() {
             placeholder="Sum up your experience"
             minLength={100}
             maxLength={1000}
+            value={title}
+            onChange={(e) =>
+              dispatch({
+                type: 'UPDATE_FORM_FIELD',
+                field: 'title',
+                value: e.target.value,
+              })
+            }
             required
           />
           <div className="helper-text">10-100 characters</div>
-          <span className="error-msg" id="error-reviewTitle"></span>
+          {errors.title && <span className="error-msg">{errors.title}</span>}
         </div>
 
         <div className="form-group">
@@ -31,22 +51,40 @@ function DetailReview() {
             minLength={30}
             maxLength={1000}
             rows={5}
+            value={details}
+            onChange={(e) =>
+              dispatch({
+                type: 'UPDATE_FORM_FIELD',
+                field: 'details',
+                value: e.target.value,
+              })
+            }
             required
           ></textarea>
           <div className="helper-text">30-1000 characters</div>
-          <span className="error-msg" id="error-reviewDetails"></span>
+          {errors.details && <span className="error-msg">{errors.details}</span>}
         </div>
 
         <div className="form-group">
           <label>Review Type</label>
           <div className="radio-group">
-            <label className="radio-label">
-              <input type="radio" name="reviewType" value="Verified Purchase" checked /> Verified
-              Purchase
-            </label>
-            <label className="radio-label">
-              <input type="radio" name="reviewType" value="General Review" /> General Review
-            </label>
+            {reviewTypes.map((type) => (
+              <label key={type} className="radio-label">
+                <input
+                  type="radio"
+                  name="reviewType"
+                  checked={reviewType === type}
+                  onChange={() =>
+                    dispatch({
+                      type: 'UPDATE_FORM_FIELD',
+                      field: 'reviewType',
+                      value: type,
+                    })
+                  }
+                />
+                {type}
+              </label>
+            ))}
           </div>
         </div>
       </section>
@@ -56,33 +94,27 @@ function DetailReview() {
           <label>
             Product Tags <small>(Select all that apply)</small>
           </label>
-          <div className="tags-container" id="tagsContainer">
-            <button type="button" className="tag-btn">
-              Best Quality
-            </button>
-            <button type="button" className="tag-btn">
-              Great Value
-            </button>
-            <button type="button" className="tag-btn">
-              Good Packaging
-            </button>
-            <button type="button" className="tag-btn">
-              Fast Delivery
-            </button>
-            <button type="button" className="tag-btn">
-              Highly Recommended
-            </button>
-            <button type="button" className="tag-btn">
-              Poor Quality
-            </button>
-            <button type="button" className="tag-btn">
-              Not Worth Price
-            </button>
-            <button type="button" className="tag-btn">
-              Damaged on Arrival
-            </button>
+          <div className="tags-container">
+            {TAG_OPTIONS.map((tag) => {
+              const isSelected = tags.includes(tag);
+
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  className={`tag-btn ${isSelected ? 'tag-btn-selected' : ''}`}
+                  onClick={() =>
+                    dispatch({
+                      type: 'TOGGLE_TAG',
+                      tag,
+                    })
+                  }
+                >
+                  {tag}
+                </button>
+              );
+            })}
           </div>
-          <input type="hidden" name="selectedTags" id="selectedTags" />
         </div>
 
         <div className="form-group">
@@ -90,23 +122,25 @@ function DetailReview() {
             Would you recommend this product? <span className="required-star">*</span>
           </label>
           <div className="radio-stack">
-            <label>
-              <input type="radio" name="recommend" value="Definitely Yes" required /> Definitely Yes
-            </label>
-            <label>
-              <input type="radio" name="recommend" value="Yes" /> Yes
-            </label>
-            <label>
-              <input type="radio" name="recommend" value="Maybe" /> Maybe
-            </label>
-            <label>
-              <input type="radio" name="recommend" value="No" /> No
-            </label>
-            <label>
-              <input type="radio" name="recommend" value="Definitely No" /> Definitely No
-            </label>
+            {RECOMMEND_OPTIONS.map((option) => (
+              <label key={option}>
+                <input
+                  type="radio"
+                  name="recommend"
+                  checked={recommend === option}
+                  onChange={() =>
+                    dispatch({
+                      type: 'UPDATE_FORM_FIELD',
+                      field: 'recommend',
+                      value: option,
+                    })
+                  }
+                />
+                {option}
+              </label>
+            ))}
           </div>
-          <span className="error-msg" id="error-recommend"></span>
+          {errors.recommend && <span className="error-msg">{errors.recommend}</span>}
         </div>
       </section>
     </>

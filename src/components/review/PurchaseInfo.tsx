@@ -1,4 +1,11 @@
+import { useContext } from 'react';
+import { AppContext } from '../../context/AppProvider';
+
 function PurchaseInfo() {
+  const { state, dispatch } = useContext(AppContext);
+
+  const purchaseDate = state.reviewForm.data.date;
+  const dateError = state.reviewForm.ui.errors.date;
   return (
     <>
       <section className="form-section">
@@ -22,8 +29,21 @@ function PurchaseInfo() {
           <label>
             Purchase Date <span className="required-star">*</span>
           </label>
-          <input type="date" id="purchaseDate" name="purchaseDate" max="" required />
-          <span className="error-msg" id="error-purchaseDate"></span>
+          <input
+            type="date"
+            id="purchaseDate"
+            name="purchaseDate"
+            value={purchaseDate}
+            onChange={(e) =>
+              dispatch({
+                type: 'UPDATE_FORM_FIELD',
+                field: 'date',
+                value: e.target.value,
+              })
+            }
+            required
+          />
+          {dateError && <span className="error-msg">{dateError}</span>}
         </div>
       </section>
     </>
