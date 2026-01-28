@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AppContext } from '../../context/AppProvider';
+import { AppContext } from '../../context/AppContext';
 
 function AddtitionalInfoSection() {
   const { state, dispatch } = useContext(AppContext);

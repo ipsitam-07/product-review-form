@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AppContext } from '../../context/AppProvider';
+import { AppContext } from '../../context/AppContext';
 import { TAG_OPTIONS, RECOMMEND_OPTIONS } from '../../constants/constants';
 import type { ReviewType } from '../../types/review';
 

@@ -1,20 +1,9 @@
-import { createContext, useEffect, useReducer, useRef } from 'react';
-import type { ReactNode, Dispatch } from 'react';
-
-import type { AppState } from '../types/state';
-import type { Action } from '../state/actions';
+import { useEffect, useReducer, useRef } from 'react';
+import type { ReactNode } from 'react';
 import { appReducer } from '../state/reducer';
 import { initialAppState } from '../state/appState';
 import { getterStorage, setterStorage } from '../storage/storage';
-
-type AppContextValue = {
-  state: AppState;
-  dispatch: Dispatch<Action>;
-};
-export const AppContext = createContext<AppContextValue>({
-  state: initialAppState,
-  dispatch: () => {},
-});
+import { AppContext } from './AppContext';
 
 type AppProviderProps = {
   children: ReactNode;

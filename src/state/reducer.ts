@@ -26,6 +26,9 @@ export function appReducer(state: AppState, action: Action): AppState {
       };
 
     case 'UPDATE_RATING':
+      const { ratingKey } = action;
+
+      const { [ratingKey]: ratingErr, ...remainingRatingErrors } = state.reviewForm.ui.errors;
       return {
         ...state,
         reviewForm: {
@@ -34,8 +37,12 @@ export function appReducer(state: AppState, action: Action): AppState {
             ...state.reviewForm.data,
             rating: {
               ...state.reviewForm.data.rating,
-              [action.ratingKey]: action.value,
+              [ratingKey]: action.value,
             },
+          },
+          ui: {
+            ...state.reviewForm.ui,
+            errors: remainingRatingErrors,
           },
         },
       };

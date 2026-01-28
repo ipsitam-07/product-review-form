@@ -1,6 +1,6 @@
 import { RATING_CONFIG } from '../../constants/constants';
 import { useContext } from 'react';
-import { AppContext } from '../../context/AppProvider';
+import { AppContext } from '../../context/AppContext';
 import type { Ratings } from '../../types/review';
 import { RatingRow } from './StarRatingRow';
 

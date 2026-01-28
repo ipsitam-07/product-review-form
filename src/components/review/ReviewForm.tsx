@@ -3,7 +3,7 @@ import AddtitionalInfoSection from './AddtitionalInfoSection';
 import DetailReview from './DetailReview';
 import PurchaseInfo from './PurchaseInfo';
 import StarRatings from './StarRatings';
-import { AppContext } from '../../context/AppProvider';
+import { AppContext } from '../../context/AppContext';
 
 function ReviewForm() {
   const { dispatch } = useContext(AppContext);
