@@ -7,7 +7,7 @@ import type { Action } from './actions';
 export function appReducer(state: AppState, action: Action): AppState {
   const newReview = createReviewFromForm(state.reviewForm.data);
   switch (action.type) {
-    case 'UPDATE_FORM_FIELD':
+    case 'UPDATE_FORM_FIELD' : {
       const { field, value } = action;
       const { [field]: _, ...remainingErrors } = state.reviewForm.ui.errors;
       return {
@@ -24,8 +24,9 @@ export function appReducer(state: AppState, action: Action): AppState {
           },
         },
       };
+    }
 
-    case 'UPDATE_RATING':
+    case 'UPDATE_RATING': {
       const { ratingKey } = action;
 
       const { [ratingKey]: ratingErr, ...remainingRatingErrors } = state.reviewForm.ui.errors;
@@ -46,6 +47,7 @@ export function appReducer(state: AppState, action: Action): AppState {
           },
         },
       };
+    }
 
     case 'TOGGLE_TAG': {
       const currentTags = state.reviewForm.data.tags;

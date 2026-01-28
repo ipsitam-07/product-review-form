@@ -1,12 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import AddtitionalInfoSection from './AddtitionalInfoSection';
 import DetailReview from './DetailReview';
 import PurchaseInfo from './PurchaseInfo';
 import StarRatings from './StarRatings';
 import { AppContext } from '../../context/AppContext';
+import { scrollToFirstError } from '../../utils/scrollToError';
 
 function ReviewForm() {
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
+
+  useEffect(() => {
+    const errors = state.reviewForm.ui.errors;
+
+    if (Object.keys(errors).length > 0) {
+      scrollToFirstError();
+    }
+  }, [state.reviewForm.ui.errors]);
+
   return (
     <>
       <div className="container">
