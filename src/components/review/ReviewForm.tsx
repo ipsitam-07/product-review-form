@@ -5,6 +5,7 @@ import PurchaseInfo from './PurchaseInfo';
 import StarRatings from './StarRatings';
 import { AppContext } from '../../context/AppContext';
 import { scrollToFirstError } from '../../utils/scrollToError';
+import AgreeTermsSection from './AgreeTermsSection';
 
 function ReviewForm() {
   const { state, dispatch } = useContext(AppContext);
@@ -46,6 +47,7 @@ function ReviewForm() {
           <StarRatings />
           <DetailReview />
           <AddtitionalInfoSection />
+          <AgreeTermsSection />
           <div className="form-actions">
             <button type="submit" className="submit-btn">
               {state.reviewForm.ui.editId ? 'Update Review' : 'Submit Review'}

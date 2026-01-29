@@ -4,7 +4,7 @@ import { AppContext } from '../../context/AppContext';
 function AddtitionalInfoSection() {
   const { state, dispatch } = useContext(AppContext);
 
-  const { buyAgain, makePublic, agreeTerms } = state.reviewForm.data;
+  const { buyAgain, makePublic } = state.reviewForm.data;
   const { errors } = state.reviewForm.ui;
   return (
     <>
@@ -42,25 +42,6 @@ function AddtitionalInfoSection() {
           </label>
 
           {errors.makePublic && <span className="error-msg">{errors.makePublic}</span>}
-        </div>
-        <div className="checkbox-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={agreeTerms}
-              onChange={(e) =>
-                dispatch({
-                  type: 'UPDATE_FORM_FIELD',
-                  field: 'agreeTerms',
-                  value: e.target.checked,
-                })
-              }
-            />
-            I agree to the <a href="#">Terms & Conditions</a>{' '}
-            <span className="required-star">*</span>
-          </label>
-
-          {errors.agreeTerms && <span className="error-msg">{errors.agreeTerms}</span>}
         </div>
       </section>
     </>
