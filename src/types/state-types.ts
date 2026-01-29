@@ -1,4 +1,4 @@
-import type { Ratings, ReviewType, Review } from '../types/review';
+import type { Ratings, ReviewType, Review } from './review';
 
 export type ReviewFormData = {
   date: string;
@@ -28,5 +28,13 @@ export type Theme = 'light' | 'dark';
 export type AppState = {
   reviewForm: ReviewFormState;
   reviews: Review[];
+  modal: ModalState;
   theme: Theme;
+};
+
+export type ModalType = 'edit' | 'delete' | null;
+
+export type ModalState = {
+  type: ModalType;
+  reviewId: string | null;
 };

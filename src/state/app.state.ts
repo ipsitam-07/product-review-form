@@ -1,4 +1,4 @@
-import type { ReviewFormState, AppState } from '../types/state';
+import type { ReviewFormState, AppState } from '../types/state-types';
 
 export const initialReviewFormState: ReviewFormState = {
   data: {
@@ -25,8 +25,14 @@ export const initialReviewFormState: ReviewFormState = {
   },
 };
 
+export const initialModalState = {
+  type: null,
+  reviewId: null,
+};
+
 export const initialAppState: AppState = {
   reviews: [],
   reviewForm: initialReviewFormState,
+  modal: initialModalState,
   theme: 'light',
 };

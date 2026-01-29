@@ -1,5 +1,5 @@
 import type { Review } from '../types/review';
-import type { ReviewFormData } from '../types/state';
+import type { ReviewFormData } from '../types/state-types';
 import { generateId } from '../utils/generateID';
 
 export function createReviewFromForm(data: ReviewFormData): Review {

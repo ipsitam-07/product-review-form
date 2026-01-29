@@ -48,25 +48,14 @@ function ReviewRow({ review }: Props) {
           <button
             type="button"
             className="edit-icon-btn"
-            onClick={() => {
-              dispatch({
-                type: 'EDIT_REVIEW',
-                reviewId: review.id,
-              });
-            }}
+            onClick={() => dispatch({ type: 'OPEN_EDIT_MODAL', reviewId: review.id })}
           >
             <FaEdit />
           </button>
           <button
             className="dlt-icon-btn"
             type="button"
-            onClick={() => {
-              const confirmed = window.confirm('Are you sure you want to delete this review?');
-
-              if (confirmed) {
-                dispatch({ type: 'DELETE_REVIEW', reviewId: review.id });
-              }
-            }}
+            onClick={() => dispatch({ type: 'OPEN_DELETE_MODAL', reviewId: review.id })}
           >
             <FaTrash />
           </button>

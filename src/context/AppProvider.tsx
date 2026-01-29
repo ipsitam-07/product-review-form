@@ -1,8 +1,8 @@
 import { useEffect, useReducer, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { appReducer } from '../state/reducer';
-import { initialAppState } from '../state/appState';
-import { getterStorage, setterStorage } from '../storage/storage';
+import { initialAppState } from '../state/app.state';
+import { getterStorage, setterStorage, setterTheme, getterTheme } from '../storage/storage';
 import { AppContext } from './AppContext';
 
 type AppProviderProps = {
@@ -23,12 +23,25 @@ export function AppProvider({ children }: AppProviderProps) {
       },
     });
 
+    dispatch({
+      type: 'SET_THEME',
+      theme: getterTheme() ?? 'light',
+    });
+
     hasHydration.current = true;
   }, []);
 
   useEffect(() => {
     setterStorage(state.reviews);
   }, [state.reviews]);
+
+  useEffect(() => {
+    setterTheme(state.theme);
+  }, [state.theme]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('theme-dark', state.theme === 'dark');
+  }, [state.theme]);
 
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 }

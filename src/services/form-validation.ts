@@ -1,4 +1,4 @@
-import type { ReviewFormData } from '../types/state';
+import type { ReviewFormData } from '../types/state-types';
 
 export function validateReviewForm(data: ReviewFormData): Record<string, string> {
   return {

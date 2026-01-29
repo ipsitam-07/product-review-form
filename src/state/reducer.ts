@@ -1,7 +1,7 @@
-import { validateReviewForm } from '../services/formValidation';
-import { createReviewFromForm } from '../services/submitReview';
-import { initialReviewFormState } from './appState';
-import type { AppState } from '../types/state';
+import { validateReviewForm } from '../services/form-validation';
+import { createReviewFromForm } from '../services/submit-review';
+import { initialReviewFormState } from './app.state';
+import type { AppState } from '../types/state-types';
 import type { Action } from './actions';
 
 export function appReducer(state: AppState, action: Action): AppState {
@@ -152,6 +152,57 @@ export function appReducer(state: AppState, action: Action): AppState {
         reviewForm: isDeletingEditedReview ? initialReviewFormState : state.reviewForm,
       };
     }
+    case 'OPEN_EDIT_MODAL':
+      return {
+        ...state,
+        modal: {
+          type: 'edit',
+          reviewId: action.reviewId,
+        },
+      };
+
+    case 'OPEN_DELETE_MODAL':
+      return {
+        ...state,
+        modal: {
+          type: 'delete',
+          reviewId: action.reviewId,
+        },
+      };
+
+    case 'CLOSE_MODAL':
+      return {
+        ...state,
+        modal: {
+          type: null,
+          reviewId: null,
+        },
+      };
+
+    case 'CONFIRM_DELETE': {
+      const updatedReviews = state.reviews.filter((review) => review.id !== state.modal.reviewId);
+
+      const isEditingDeleted = state.reviewForm.ui.editId === state.modal.reviewId;
+
+      return {
+        ...state,
+        reviews: updatedReviews,
+        modal: { type: null, reviewId: null },
+        reviewForm: isEditingDeleted ? initialReviewFormState : state.reviewForm,
+      };
+    }
+
+    case 'TOGGLE_THEME':
+      return {
+        ...state,
+        theme: state.theme === 'light' ? 'dark' : 'light',
+      };
+
+    case 'SET_THEME':
+      return {
+        ...state,
+        theme: action.theme,
+      };
 
     default:
       return state;
